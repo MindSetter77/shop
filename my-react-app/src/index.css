@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  
+body {
+    margin: 0;
+    padding: 0;
+    border: none; /* Zapewni brak granic wokół body */
+}
+
+p {
+    font-family: 'Poppins', sans-serif; /* Zmieniasz czcionkę na 'Roboto' */
+}
+
+input {
+    font-family: 'Poppins', sans-serif; /* Zmieniasz czcionkę na 'Roboto' */
+}
