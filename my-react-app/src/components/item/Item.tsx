@@ -1,5 +1,6 @@
 import { colors } from "../../colors"
 import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom";
 
 import StarIcon from '@mui/icons-material/Star';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
@@ -18,25 +19,32 @@ interface Photo {
 
 function Item() {
 
+    const { id } = useParams<{ id: string }>();
+
     const [photos, setPhotos] = useState<Photo[]>([]);
     const [currentPhoto, setCurrentPhoto] = useState<string>('')
 
+    const [name, setName] = useState<string>('')
+    const [price, setPrice] = useState<number>(0)
+    const [discount, setDiscount] = useState<number>(0)
+
+    const [sold, setSold] = useState<number>(0)
+    const [opinion, setOpinion] = useState<number>(0)
+    const [avgOpinion, setAvgOpinion] = useState<number>(0)
+
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchPhotos = async () => {
             try {
-                let item_id: number = 1
                 const response = await fetch('http://localhost:3000/getPhotos', {
                     method: 'POST', 
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ item_id }),
+                    body: JSON.stringify({ item_id: id }),
                 });
         
                 if (response.ok) {
                     const data = await response.json();
-                    
-
                     setCurrentPhoto(data[0].src)
                     setPhotos(data)
                 } else {
@@ -46,12 +54,46 @@ function Item() {
                 console.error('Something went wrong!', error);
             }
         };
-    
-        fetchData(); // Wywołanie funkcji fetchData
+
+        const fetchData = async () =>{
+            try {
+                const response = await fetch('http://localhost:3000/getItemData', {
+                    method: 'POST', 
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ item_id: id }),
+                });
+        
+                if (response.ok) {
+                    const data = await response.json();
+                    setName(data[0].title)
+                    setPrice(data[0].price)
+                    setDiscount(data[0].discount)
+
+                    setSold(data[0].sold_amount)
+                    setOpinion(data[0].opinion_amount)
+                    setAvgOpinion(data[0].avg_opinion)
+                } else {
+                    console.error('Error adding user to database:', response);
+                }
+            } catch (error) {
+                console.error('Something went wrong!', error);
+            }
+            
+        }
+        fetchData()
+        fetchPhotos(); // Wywołanie funkcji fetchData
       }, []); // Pusty array zapewnia, że ten efekt wykona się tylko raz po załadowaniu komponentu
 
+    const getPrice = (p: number, d: number) => {
+        let val = p / 100
+        let ret = val * d
+        return parseFloat(ret.toFixed(2))
+    } 
+
     return(
-        <div style={{display: 'flex', width: '100%', height: 'calc(100vh - 64px)', backgroundColor: colors.background, marginTop: '10px'}}>
+        <div style={{justifyContent: 'center', display: 'flex', width: '100%', height: 'calc(100vh - 64px)', backgroundColor: colors.background, marginTop: '10px'}}>
             <div style={{display: 'flex', width: '500px', height: '400px'}}>
                 <div style={{display: 'flex', flexDirection: 'column', maxHeight: '400px', overflowY: 'auto', width: '105px'}}>
                     {photos.map((item, index) => (
@@ -72,18 +114,18 @@ function Item() {
                 </div>
                 
                 <div style={{display: 'flex', height: '55px'}}>
-                    <p style={{fontSize: '40px', fontWeight: 'bold'}}>4,10 PLN</p>
-                    <p style={{color: 'red', marginTop: '24px', marginLeft: '10px',}}>36% zniżki</p>
+                    <p style={{fontSize: '40px', fontWeight: 'bold'}}>{getPrice(price, discount)} PLN</p>
+                    <p style={{color: 'red', marginTop: '24px', marginLeft: '10px',}}>{discount} zniżki</p>
                 </div>
 
                 <div style={{display: 'flex'}}>
-                    <p style={{fontSize: '13px', marginTop: '0px'}}>Najniższa cena w ciągu 30 dni przed obniżką cen. </p>
-                    <p style={{fontWeight: 'bold', fontSize:'13px', marginLeft: '3px'}}>6,41zł</p>
+                    <p style={{fontSize: '13px', marginTop: '0px'}}>Cena bez udzielonej promocji: </p>
+                    <p style={{fontWeight: 'bold', fontSize:'13px', marginLeft: '3px'}}>{price} PLN</p>
                 </div>
 
                 <p style={{color: 'gray', fontSize: '10px'}}>Cena zawiera podatek VAT</p>
 
-                <p style={{fontSize: '13px', fontWeight: 'bold'}}>List wygodne figi seksowna różowa marka VS bielizna koronkowa damska bliscy bielizna niski wzrost majtki damskie biustonosz stringi z kryształkami</p>
+                <p style={{fontSize: '13px', fontWeight: 'bold'}}>{name}</p>
                 
                 <div style={{display: 'flex', alignItems: 'center'}}>
                     <StarIcon style={{color: 'orange', fontSize: '16px'}} />
@@ -91,9 +133,9 @@ function Item() {
                     <StarIcon style={{color: 'orange', fontSize: '16px'}} />
                     <StarHalfIcon style={{color: 'orange', fontSize: '16px'}}  />
                     <StarOutlineIcon style={{color: 'orange', fontSize: '16px'}}  />
-                    <p style={{fontSize: '13px', fontWeight:'bold', marginLeft: '5px'}}  >4,8</p>
-                    <p style={{fontSize: '13px', marginLeft: '5px'}}  >| 747 Recenzje</p>
-                    <p style={{fontSize: '13px', marginLeft: '5px'}}  >| +4 000 Sprzedanych!</p>
+                    <p style={{fontSize: '13px', fontWeight:'bold', marginLeft: '5px'}}  >{avgOpinion}</p>
+                    <p style={{fontSize: '13px', marginLeft: '5px'}}  >| {opinion} Recenzje</p>
+                    <p style={{fontSize: '13px', marginLeft: '5px'}}  >| +{sold} Sprzedanych!</p>
                 </div>
 
                 <hr style={{marginTop: '5px', marginBottom: '5px'}}/>
@@ -155,6 +197,26 @@ function Item() {
                         <div style={{display: 'flex'}}>
                             <HealthAndSafetyIcon  style={{fontSize: '20px', marginRight: '5px'}}/>
                             <p style={{fontSize: '13px', fontWeight: 'bold'}}>Bezpieczeństwo i ochrona prywatności</p>
+                        </div>
+
+                        <hr style={{marginTop: '10px', marginBottom: '10px'}}/>
+
+                        <p>Ilość</p>
+
+                        <div style={{display: 'flex'}}>
+                            <div style={{display: 'flex', border: '2px solid black', width: '20px', height: '20px', borderRadius: '10px', justifyContent: 'center', alignItems: 'center'}}>
+                                -
+                            </div>
+                            <p style={{fontWeight: 'bold', marginLeft: '10px', marginRight: '10px'}}>1</p>
+                            <div style={{display: 'flex', border: '2px solid black', width: '20px', height: '20px', borderRadius: '10px', justifyContent: 'center', alignItems: 'center'}}>+</div>
+                        </div>
+                        
+                        <div style={{display: 'flex', backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center', cursor: 'pointer', marginTop: '5px' }}>
+                            <p style={{color: 'white', margin: 0}}>Kup teraz!</p>
+                        </div>
+
+                        <div style={{display: 'flex', border: `2px solid ${colors.primary}`, alignItems: 'center', justifyContent: 'center', cursor: 'pointer', marginTop: '10px' }}>
+                            <p>Dodaj do koszyka</p>
                         </div>
                         
                     </div>

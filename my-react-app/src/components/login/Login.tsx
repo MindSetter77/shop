@@ -21,17 +21,14 @@ function Login({setUser}: LoginProps) {
     const [repeatPassword, setRepeatPassword] = useState('')
     const [username, setUsername] = useState('')
 
+    const [code, setCode] = useState('')
+
 
     const changeEmailValue = (event: any) => {
         setEmail(event.target.value)
 
         let goodEmail: boolean = validateEmail(event.target.value)
-
-        if(goodEmail){
-            setEmailValid(true)
-        } else {
-            setEmailValid(false)
-        }
+        setEmailValid(goodEmail)
     }
 
     const validateEmail = (email: string) => {
@@ -79,7 +76,7 @@ function Login({setUser}: LoginProps) {
                 let emailAdress: string = email;
                 let pass: string = password;
         
-                const response = await fetch('http://localhost:3000/login', {
+                const response = await fetch('http://localhost:3000/loginBeforeCode', {
                     method: 'POST', 
                     headers: {
                         'Content-Type': 'application/json',
@@ -90,14 +87,44 @@ function Login({setUser}: LoginProps) {
                 
                 if (response.ok) {
                     const data = await response.json();
-                    setUser(data.user)
-                    navigate('/')
+                    if(data.message === 'success'){
+                        setMode('login2')
+                    }
+                    
                 } else {
                     console.error('Error adding user to database:', response);
                 }
             } catch (error) {
                 console.error('Something went wrong!', error);
             }
+
+        } else if(mode === 'login2' ) {
+            
+            try {
+        
+                const response = await fetch('http://localhost:3000/loginAfterCode', {
+                    method: 'POST', 
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ code }), // Teraz body działa
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('=======')
+                    console.log(data.result)
+                    setUser(data.result)
+                    navigate('/')
+                    
+                } else {
+                    console.error('Error adding user to database:', response);
+                }
+            } catch (error) {
+                console.error('Something went wrong!', error);
+            }
+
         } else if(mode === 'register'){
             try {
 
@@ -141,6 +168,10 @@ function Login({setUser}: LoginProps) {
         setRepeatPassword(event.target.value)
     }
 
+    const changeCode = (event: any) => {
+        setCode(event.target.value)
+    }
+
     return(
         <div style={{backgroundColor: colors.background, height: 'calc(100vh - 64px)', display: 'flex', justifyContent: 'center'}}>
             <div style={{backgroundColor: 'yellow', width: '400px', height: '500px', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
@@ -155,6 +186,9 @@ function Login({setUser}: LoginProps) {
                     <input placeholder="Adres email" value={email} onChange={changeEmailValue} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px'}}></input>
                 ) : mode === 'login' ? (
                     <input placeholder="Hasło" value={password} onChange={changePassword} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px'}}></input>
+                ) : mode === 'login2' ? (
+                    <input placeholder="Email code" value={code} onChange={changeCode} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px'}}></input>
+                
                 ) : (
                     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%'}}>
                         <input placeholder="Username" value={username} onChange={changeUsername} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px'}}></input>
