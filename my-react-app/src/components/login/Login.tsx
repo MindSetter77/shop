@@ -174,7 +174,7 @@ function Login({setUser}: LoginProps) {
 
     return(
         <div style={{backgroundColor: colors.background, height: 'calc(100vh - 64px)', display: 'flex', justifyContent: 'center'}}>
-            <div style={{backgroundColor: 'yellow', width: '400px', height: '500px', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+            <div style={{width: '400px', height: '500px', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
                 <p style={{marginTop: '30px', marginBottom: '10px', fontSize: '20px'}}>Zarejestruj się / zaloguj</p>
                 
                 <div style={{display: 'flex',alignItems: 'center', marginBottom: '20px'}}>

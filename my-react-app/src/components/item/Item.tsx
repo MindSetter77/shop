@@ -17,7 +17,13 @@ interface Photo {
     user_id: number;
 }
 
-function Item() {
+interface ItemProps {
+    language: string;
+    getPriceText: (itemPrice: number) => string;
+    getPrice: (p: number, d: number) => number;
+}
+
+function Item({language, getPriceText, getPrice}: ItemProps) {
 
     const { id } = useParams<{ id: string }>();
 
@@ -33,6 +39,7 @@ function Item() {
     const [avgOpinion, setAvgOpinion] = useState<number>(0)
 
     useEffect(() => {
+        console.log(language)
         const fetchPhotos = async () => {
             try {
                 const response = await fetch('http://localhost:3000/getPhotos', {
@@ -86,12 +93,6 @@ function Item() {
         fetchPhotos(); // Wywołanie funkcji fetchData
       }, []); // Pusty array zapewnia, że ten efekt wykona się tylko raz po załadowaniu komponentu
 
-    const getPrice = (p: number, d: number) => {
-        let val = p / 100
-        let ret = val * d
-        return parseFloat(ret.toFixed(2))
-    } 
-
     return(
         <div style={{justifyContent: 'center', display: 'flex', width: '100%', height: 'calc(100vh - 64px)', backgroundColor: colors.background, marginTop: '10px'}}>
             <div style={{display: 'flex', width: '500px', height: '400px'}}>
@@ -114,13 +115,13 @@ function Item() {
                 </div>
                 
                 <div style={{display: 'flex', height: '55px'}}>
-                    <p style={{fontSize: '40px', fontWeight: 'bold'}}>{getPrice(price, discount)} PLN</p>
+                    <p style={{fontSize: '40px', fontWeight: 'bold'}}>{getPriceText(getPrice(price, discount))}</p>
                     <p style={{color: 'red', marginTop: '24px', marginLeft: '10px',}}>{discount} zniżki</p>
                 </div>
 
                 <div style={{display: 'flex'}}>
                     <p style={{fontSize: '13px', marginTop: '0px'}}>Cena bez udzielonej promocji: </p>
-                    <p style={{fontWeight: 'bold', fontSize:'13px', marginLeft: '3px'}}>{price} PLN</p>
+                    <p style={{fontWeight: 'bold', fontSize:'13px', marginLeft: '3px'}}>{getPriceText(price)}</p>
                 </div>
 
                 <p style={{color: 'gray', fontSize: '10px'}}>Cena zawiera podatek VAT</p>

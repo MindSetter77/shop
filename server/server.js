@@ -8,12 +8,20 @@ const path = require('path');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
+
 const corsOptions = {
     origin: 'http://localhost:5173',
     methods: 'GET,POST',
     credentials: true,
 };
 
+/*
+const corsOptions = {
+    origin: 'http://localhost:8080',
+    methods: 'GET,POST',
+    credentials: true,
+};
+*/
 app.use(cors(corsOptions));
 app.use(express.json());
 
@@ -83,6 +91,33 @@ function sendEmail(user_id, email, result){
       console.log('E-mail wysłany:', info.response);
     });
   }
+
+
+// Endpoint do aktualizacji tagu
+app.post('/updateTag', (req, res) => {
+    const { id, tag } = req.body; // Otrzymujemy id i tag z front-endu
+  
+    // Sprawdzamy, czy przesłane dane są poprawne
+    if (!id || !tag) {
+      return res.status(400).json({ message: 'Brak id lub tagu' });
+    }
+  
+    // Tworzymy zapytanie SQL do zaktualizowania tagu
+    const sql = 'UPDATE items SET tag = ? WHERE id = ?';
+    db.query(sql, [tag, id], (err, result) => {
+      if (err) {
+        console.error('Błąd aktualizacji tagu:', err);
+        return res.status(500).json({ message: 'Błąd serwera' });
+      }
+  
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: 'Przedmiot o podanym ID nie istnieje' });
+      }
+  
+      // Zwracamy sukces
+      res.status(200).json({ message: 'Tag zaktualizowany pomyślnie' });
+    });
+  });
 
 app.post('/loginBeforeCode', async (req, res) => {
     const email = req.body.emailAdress;
