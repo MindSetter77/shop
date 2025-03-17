@@ -198,9 +198,14 @@ function Login({setUser}: LoginProps) {
                 )}
                 
 
-                <div onClick={() => continueClick()} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '85%', height: '50px', backgroundColor: emailValid === false? colors.secondary : colors.primary , cursor: emailValid === false ? 'not-allowed' : 'pointer'}}>
+                <div onClick={() => continueClick()} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '85%', height: '50px', backgroundColor: emailValid === false? colors.secondary : colors.primary , cursor: emailValid === false ? 'not-allowed' : 'pointer', borderRadius: '20px'}}>
                     <p>Kontynuuj</p>
                 </div>
+
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <p style={{fontSize: '11px', textAlign: 'center', marginTop: '10px'}}>Kontynuując, zgadzasz się z naszym Regulamin i potwierdzasz, że zapoznałeś się z naszym Ochrona Prywatności.</p>
+                </div>
+                
             </div>
         </div>
     )

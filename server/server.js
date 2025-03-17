@@ -257,9 +257,80 @@ app.post('/getItems', async(req, res) => {
     });
 });
 
+app.post('/getSortedItems', async(req, res) => {
+
+    let sql = ''
+    const sort_type = req.body.sort_type;
+
+    switch (sort_type){
+        case 'Znizka':
+            sql = `SELECT * FROM items ORDER BY discount DESC LIMIT 10;`;
+            break;
+        case 'komputer':
+            sql = `SELECT * FROM items ORDER BY discount DESC LIMIT 2;`;
+            break;
+        case 'Gowno':
+            sql = `SELECT * FROM items ORDER BY id;`;
+            break;
+    }
+
+    
+    
+
+    
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.error("Błąd zapytania SQL:", err);
+            return res.status(500).json({ error: err.message });
+        }
+        console.log("================================")
+        console.log(sort_type);
+        console.log("================================")
+
+        res.status(200).json(result);
+    });
+});
+
+app.post('/getSortedItem', async(req, res) => {
+    const sql = `SELECT * FROM items`;
+
+    
+
+    const sort_type = req.body.sort_type;
+
+    console.log(`sort_type: ${sort_type}`)
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            
+        
+            console.error("Błąd zapytania SQL:", err);
+            return res.status(500).json({ error: err.message });
+        
+        }
+        return_items = []
+        result.forEach((item, index) => {
+            
+            if(item.tag === sort_type){
+                return_items.push(item)
+            }
+        });
+
+
+
+        console.log('OK');
+        res.status(200).json(return_items);
+    });
+});
+
 app.post('/getPhotoUrls', async(req, res) => {
     const item_ids = req.body.item_ids;
-    const sql = `SELECT * FROM photos WHERE item_id IN (${item_ids})`;
+
+
+
+
+    const sql = `SELECT * FROM photos WHERE src = 'http://localhost:3000/images/item_18/image_1.jpg'`;
 
     console.log(sql);
 

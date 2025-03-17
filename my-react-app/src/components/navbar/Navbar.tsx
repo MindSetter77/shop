@@ -4,6 +4,7 @@ import {  FireExtinguisher, Person2, ShoppingBasket } from "@mui/icons-material"
 import { useNavigate } from "react-router-dom";
 import { User } from "../../App";
 import Item from "../item/Item";
+import { motion } from "framer-motion";
 
 interface NavbarProps {
     user: User | null;
@@ -72,25 +73,19 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
     }
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', backgroundColor: 'white', borderBottom: `4px solid ${colors.primary}` }}>
-            <div style={{ display: 'flex', alignItems: 'center', height: '60px', backgroundColor: 'white', width: '90%' }}>
+        <motion.div
+        initial={{ y: -100, opacity: 0 }}  // Startowa pozycja - poza ekranem
+        animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+        transition={{ type: "spring", stiffness: 90, damping: 15 }} // Płynne pojawianie 
+        style={{ display: 'flex', justifyContent: 'center', borderBottom: `4px solid rgb(255, 255, 255, 0)`,position: 'absolute', zIndex: 30, width: '100%', top: 0, backgroundColor: 'rgb(255, 255, 255, 0)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', height: '60px', width: '90%' }}>
                 
-                <p onClick={() => navigate('/')} style={{ fontSize: '25px', marginLeft: '30px', width: '180px', cursor: 'pointer' }}>Best market</p>
+                <p onClick={() => navigate('/')} style={{ marginRight: 'auto', fontSize: '25px', marginLeft: '30px', width: '180px', cursor: 'pointer', color: '#66ccff', fontFamily: 'Satoshi-Bold' }}>Best market</p>
                 
-                <input type="text" value={searchBar} onChange={handleSearchChange} placeholder="Search"
-                    style={{ marginLeft: '20px', width: '60%', height: '30px', borderRadius: '15px', paddingLeft: '10px' }} />
+                
                 
                 <div>
-                    <div onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)} style={{ display: 'flex', alignItems: 'center', height: '50px', marginLeft: '20px', cursor: 'pointer' }}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <img src={languageOptions[language]?.flag} style={{ height: '20px' }} />
-                        <div style={{ marginLeft: '10px' }}>
-                            <p style={{ fontSize: '15px' }}>{languageOptions[language]?.label}</p>
-                            <p style={{ fontSize: '15px' }}>{languageOptions[language]?.currency}</p>
-                        </div>
-                    </div>
-                        
-                    </div>
+                    
 
                     {isLanguageMenuOpen && (
                         <div style={{
@@ -160,29 +155,43 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
                 </div>
                 
                 
-                <div onClick={() => navigate('/login')} style={{ display: 'flex', alignItems: 'center', height: '80%', cursor: 'pointer', marginLeft: '20px' }}>
-                    <Person2 style={{ fontSize: '35px' }} />
+                <div onClick={() => navigate('/login')} style={{ display: 'flex', alignItems: 'center', height: '80%', cursor: 'pointer' }}>
+                    <Person2 style={{ fontSize: '35px', color: colors.text }} />
                     <div>
-                        <p style={{ marginLeft: '10px', fontSize: '15px' }}>
+                        <p style={{ marginLeft: '10px', fontSize: '20px', color: colors.text }}>
                             {user === null ? 'Niezalogowano' : displayName(user.username, 13)}
                         </p>
-                        <p style={{ marginLeft: '10px', fontSize: '12px' }}>
+                        {/*
+                        <p style={{ marginLeft: '10px', fontSize: '12px', color: colors.text }}>
                             {user === null ? 'Zaloguj/Zarejestruj' : 'Konto'}
                         </p>
+                        */}
                     </div>
                 </div>
 
-                <div onClick={() => setIsBasketOpen(!isBasketOpen)} style={{ display: 'flex', alignItems: 'center', height: '80%', cursor: 'pointer', marginLeft: '20px' }}>
-                    <ShoppingBasket style={{ fontSize: '35px' }} />
+                <div onClick={() => setIsBasketOpen(!isBasketOpen)} style={{ display: 'flex', alignItems: 'center', height: '80%', cursor: 'pointer', marginLeft: '30px', marginRight: '10px' }}>
+                    <ShoppingBasket style={{ fontSize: '35px', color: colors.text }} />
                     <div>
-                        <p style={{ marginLeft: '10px', fontSize: '15px' }}>{basket.length}</p>
-                        <p style={{ marginLeft: '10px', fontSize: '12px' }}>Koszyk</p>
+                        <p style={{ marginLeft: '7px', fontSize: '15px', color: colors.text }}>{basket.length}</p>
                     </div>
                 </div>
+
+                <div onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)} style={{ display: 'flex', alignItems: 'center', height: '50px', marginLeft: '20px', cursor: 'pointer' }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <img src={languageOptions[language]?.flag} style={{ height: '20px' }} />
+                        <div style={{ marginLeft: '10px' }}>
+                            <p style={{ fontSize: '20px', color: colors.text, }}>{languageOptions[language]?.label}</p>
+                            {/*
+                            <p style={{ fontSize: '15px', color: colors.text }}>{languageOptions[language]?.currency}</p>
+                            */}
+                        </div>
+                    </div>
+                        
+                    </div>
 
                 
             </div>
-        </div>
+        </motion.div>
     );
 }
 

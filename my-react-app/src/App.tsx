@@ -3,6 +3,10 @@ import Home from "./components/home/Home"
 import Login from "./components/login/Login";
 import Item from "./components/item/Item";
 
+// src/index.js lub src/App.js
+import './index.css';  // Upewnij się, że ścieżka pasuje do lokalizacji Twojego pliku CSS
+
+
 import { useEffect, useState } from "react";
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -20,6 +24,23 @@ export interface basket_item {
   title: string;
   price: number
   discount: number
+}
+
+export interface ItemInterface {
+  additional_settings: string
+  ali_price: string
+  ali_url: string
+  avg_opinion: number
+  discount: string
+  id: number
+  max_amount: number
+  opinion_amount: number
+  price: string
+  sold_amount: number
+  tag: string
+  title: string
+  user_id: number
+
 }
 
 function App() {
@@ -76,7 +97,7 @@ function App() {
         case 'PL':
           return (itemPrice * priceTable[0]).toFixed(2) + " PLN";
         case 'UK':
-          return (itemPrice * priceTable[1]).toFixed(2) + " GBP"
+          return (itemPrice * priceTable[1]).toFixed(2) + " £"
         case 'DE':
           return (itemPrice * priceTable[2]).toFixed(2) + " EUR"
         case 'FR':
