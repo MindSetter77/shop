@@ -124,7 +124,7 @@ function App() {
     <Router>
       <Navbar user={user} language={language} setLanguage={setLanguage} basket={basket} setIsBasketOpen={setIsBasketOpen} isBasketOpen={isBasketOpen} removeFromBasket={removeFromBasket} fetchExchangeRate={fetchExchangeRate} getPrice={getPrice} getPriceText={getPriceText} priceTable={priceTable}/>
       <Routes>
-        <Route path="/" element={<Home setUser={setUser} addToBasket={addToBasket} basket={basket} language={language} getPriceText={getPriceText} getPrice={getPrice}/>}/>
+        <Route path="/" element={<Home setUser={setUser} addToBasket={addToBasket} basket={basket} language={language} getPriceText={getPriceText} getPrice={getPrice} removeFromBasket={removeFromBasket}/>}/>
         <Route path="/login" element={<Login setUser={setUser}/>} />
         <Route path="/item/:id" element={<Item language={language} getPriceText={getPriceText} getPrice={getPrice}/>} />
         <Route path="/basket" element={<Basket basket={basket} removeFromBasket={removeFromBasket}/>} />

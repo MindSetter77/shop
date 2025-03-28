@@ -80,7 +80,7 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
         style={{ display: 'flex', justifyContent: 'center', borderBottom: `4px solid rgb(255, 255, 255, 0)`,position: 'absolute', zIndex: 30, width: '100%', top: 0, backgroundColor: 'rgb(255, 255, 255, 0)' }}>
             <div style={{ display: 'flex', alignItems: 'center', height: '60px', width: '90%' }}>
                 
-                <p onClick={() => navigate('/')} style={{ marginRight: 'auto', fontSize: '25px', marginLeft: '30px', width: '180px', cursor: 'pointer', color: '#66ccff', fontFamily: 'Satoshi-Bold' }}>Best market</p>
+                <p onClick={() => navigate('/')} style={{ marginRight: 'auto', fontSize: '30px', marginLeft: '30px', width: '180px', cursor: 'pointer', color: '#66ccff', fontFamily: 'Satoshi-Bold' }}>Best market</p>
                 
                 
                 

@@ -23,10 +23,11 @@ interface HomeProps {
     language: string;
     getPriceText: (itemPrice: number) => string;
     getPrice: (p: number, d: number) => number;
+    removeFromBasket: (id: number) => void;
 
 }
 
-function Home({setUser, addToBasket, basket, language, getPriceText, getPrice }: HomeProps){
+function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, removeFromBasket }: HomeProps){
 
   const navigate = useNavigate();
   
@@ -67,6 +68,8 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice }:
     for(let i = 0; i<data.length; i++){
       url_list.push(`http://localhost:3000/images/item_${data[i].id}/image_1.jpg`)
     }
+
+    console.log(data)
 
     if(type === 1){
       setPhoto1s(url_list)
@@ -126,6 +129,7 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice }:
           const data = await response.json();
   
           setDiscountedItems(data)
+          setPhotoUrls(data, 2)
       } else {
           console.error('Error getting discounted items:', response);
       }
@@ -174,7 +178,6 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice }:
   const headerClick = (item: string) => {
     setFilter(item)
     getDiscountItems(item)
-    setPhotoUrls(discountedItems, 2)
   }
   
 
@@ -213,7 +216,7 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice }:
                   </div>
 
                   <div style={{width: '70%', fontSize: '16px', marginTop: '20px'}}>
-                    <p style={{color: 'gray', fontFamily: 'Satoshi'}}>Our team of experts uses a methodology to identify the credit cards most likely to fit your needs. 
+                    <p style={{color: 'gray', fontFamily: 'Satoshi'}}>Our team of experts uses a methodology to identify the best deals most likely to fit your needs. 
                     We examine annual percentage rates, annual fees.</p>
                   </div>
 
@@ -232,15 +235,15 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice }:
 
             <div style={{width: '50%',color: 'white', border: '2px solid green', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
 
-              <div style={{height: '300px', width: '55%'}}>
+              <div style={{width: '450px', border: '2px solid red'}}>
               <Slider {...settings}>
 
               {items?.map((item, index) => {
                 
-                if(index < 10){
+                if(index < 100){
                   return(
                     <div>
-                      <ItemCard photo1s={photo1s[index]} item={item} getPriceText={getPriceText} getPrice={getPrice}/>
+                      <ItemCard photo1s={photo1s[index]} item={item} getPriceText={getPriceText} getPrice={getPrice} addToBasket={addToBasket} basket={basket} removeFromBasket={removeFromBasket}/>
                     </div>)
                 } else {
                   return (null)
@@ -287,10 +290,13 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice }:
                   
                 ))}
               </div>
-              <div style={{color: 'white', border: '2px dotted green', width: '80%'}}>
+              <div style={{display: 'flex', flexWrap: 'wrap', gap: '-10px', justifyContent: 'center', color: 'white', border: '2px dotted green', width: '100%'}}>
                 
                 {discountedItems?.map((item, index) => (
-                  <ItemCard photo1s={photoSorted[index]} item={item} getPriceText={getPriceText} getPrice={getPrice}/>
+                  
+                  <ItemCard photo1s={photoSorted[index]} item={item} getPriceText={getPriceText} getPrice={getPrice} addToBasket={addToBasket} basket={basket} removeFromBasket={removeFromBasket}/>
+                  
+                  
                 ))}
                 
               </div>

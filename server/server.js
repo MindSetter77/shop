@@ -264,7 +264,7 @@ app.post('/getSortedItems', async(req, res) => {
 
     switch (sort_type){
         case 'Znizka':
-            sql = `SELECT * FROM items ORDER BY discount DESC LIMIT 10;`;
+            sql = `SELECT * FROM items ORDER BY discount ;`; //DESC LIMIT 10
             break;
         case 'komputer':
             sql = `SELECT * FROM items ORDER BY discount DESC LIMIT 2;`;
