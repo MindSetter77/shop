@@ -6,13 +6,17 @@ export const colors = {
     text: '#ffffff',
 
     dot1: 'rgb(0, 57, 104)',
-    dot2: 'rgb(82, 82, 82)',
+    dot2: 'rgb(0, 58, 68)',
+    dot3: 'rgb(102, 0, 88)',
 
     palette1: '#ffee32',
     palette2: '#ffffff',
     palette3: '#202020',
     palette4: '#333533',
-    palette5: '#6ede8a'
+    palette5: '#6ede8a',
 
-
+    blackBackgroundColorInBasket: 'rgb(32, 32, 32)',
+    footerBackGround: 'rgb(19, 19, 19)'
+  
+  
   };

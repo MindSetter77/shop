@@ -14,9 +14,10 @@ interface ItemCardProps{
     addToBasket: (item: basket_item) => void;
     basket: any[];
     removeFromBasket: (id: number) => void;
+    type: number
 }
 
-function ItemCard({photo1s, item, getPriceText, getPrice, addToBasket, basket, removeFromBasket}: ItemCardProps){
+function ItemCard({photo1s, item, getPriceText, getPrice, addToBasket, basket, removeFromBasket, type}: ItemCardProps){
     
     const navigate = useNavigate();
 
@@ -36,7 +37,7 @@ function ItemCard({photo1s, item, getPriceText, getPrice, addToBasket, basket, r
                 <div style={{display: 'flex'}}>
                     <img onClick={() => console.log(photo1s)} src={photo1s} style={{maxWidth: '100px', maxHeight: '100px', borderRadius: '20px'}}/>
                     <div style={{display: 'flex',justifyContent: 'center', textOverflow: 'ellipsis', overflow: 'hidden', flexDirection: 'column',  marginLeft: '10px'}}>
-                    <p style={{whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden'}}>{item.title}</p>
+                    <p style={{fontFamily: 'Satoshi-bold', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden'}}>{item.title}</p>
                     <div onClick={() => console.log(item)} style={{display: 'flex', alignItems: 'center'}}>
                         <p style={{textDecoration: 'line-through', fontSize: '14px'}}>{`${item.price}`}</p>
                         <p style={{marginLeft: '5px'}}>{`${getPriceText(getPrice(Number(item.price), Number(item.discount)))}`}</p>
@@ -62,12 +63,17 @@ function ItemCard({photo1s, item, getPriceText, getPrice, addToBasket, basket, r
                         }
                         <p style={{fontSize: '12px'}}>BESTSELLER</p>
                     </div>
+                    
+                    { type === 1 ? (
+                    <div onClick={() => console.log(item)}>
+                        <p style={{}}>{item.title}</p>
+                    </div> ) : null
+                    }
                     <div style={{display: 'flex', marginTop: '5px'}}>
 
                         <div onClick={() => manageBasketButton(item.id)} style={{display: 'flex', justifyContent: 'center', cursor: 'pointer', height: '25px',  width: '110px', backgroundColor: '#EAEAEB', borderRadius: '5px'}}>
                         <p style={{color: 'black', fontFamily: 'Satoshi', fontWeight: 'bold'}}>{basket.some(basketItem => basketItem.id === item.id) ? ('✓') : ("Do koszyka")}</p>
                         </div>
-
                         <div style={{display: 'flex', justifyContent: 'center', cursor: 'pointer', height: '25px', marginLeft: '10px',  width: '110px', backgroundColor: '#EAEAEB', borderRadius: '5px'}}>
                         <p onClick={() => navigate(`/item/${item.id}`)} style={{color: 'black', fontFamily: 'Satoshi', fontWeight: 'bold'}}>O produkcie</p>
                         </div>
@@ -80,6 +86,7 @@ function ItemCard({photo1s, item, getPriceText, getPrice, addToBasket, basket, r
                 </div>
     
                         
+
                 <div>
                           
                 </div>

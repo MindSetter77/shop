@@ -77,7 +77,7 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
         initial={{ y: -100, opacity: 0 }}  // Startowa pozycja - poza ekranem
         animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
         transition={{ type: "spring", stiffness: 90, damping: 15 }} // Płynne pojawianie 
-        style={{ display: 'flex', justifyContent: 'center', borderBottom: `4px solid rgb(255, 255, 255, 0)`,position: 'absolute', zIndex: 30, width: '100%', top: 0, backgroundColor: 'rgb(255, 255, 255, 0)' }}>
+        style={{ display: 'flex', justifyContent: 'center', borderBottom: `4px solid rgb(255, 255, 255, 0)`,position: 'fixed', zIndex: 30, width: '100%', top: 0, backgroundColor: 'rgb(0, 0, 0, 0.3)' }}>
             <div style={{ display: 'flex', alignItems: 'center', height: '60px', width: '90%' }}>
                 
                 <p onClick={() => navigate('/')} style={{ marginRight: 'auto', fontSize: '30px', marginLeft: '30px', width: '180px', cursor: 'pointer', color: '#66ccff', fontFamily: 'Satoshi-Bold' }}>Best market</p>
@@ -114,7 +114,7 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
 
                     {isBasketOpen && (
                         <div style={{
-                            position: 'absolute',
+                            position: 'fixed',
                             top: '64px',
                             right: '0',
                             display: 'flex',
@@ -122,33 +122,34 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
                             alignItems: 'center',
                             width: '400px',
                             height: 'calc(100vh - 64px)',
-                            backgroundColor: 'white',
-                            borderLeft: `2px solid ${colors.primary}`,
-                            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                            backgroundColor: 'rgb(0, 0, 0, 0.5)',
+                            borderLeft: `2px solid #66ccff`,
+                            boxShadow: '0px 4px 6px rgba(0, 255, 255, 0.7)',
                             borderRadius: '10px 0px 0px 10px',
                             minWidth: '120px',
                             zIndex: 10
+
                         }}>
                             
-                            <p style={{fontSize: '15px'}}>Koszyk</p>
+                            <p style={{fontSize: '20px', color: 'white', fontFamily: 'Satoshi'}}>Koszyk</p>
                             
-                            <div style={{border: '2px solid gray', width: '100%', height:'89%', overflowY: 'auto'}}>
+                            <div style={{borderTop: '2px solid gray', borderBottom: '2px solid gray', width: '100%', height:'89%', overflowY: 'auto'}}>
                                 {basket.map((item) => (
                                     <div key={item.id} style={{ display: 'flex', marginBottom: '10px', borderBottom: '1px solid #ccc', padding: '10px' }}>
                                     <img src={item.src} alt={item.title} style={{ width: '50px', height: '50px', objectFit: 'cover', marginRight: '10px' }} />
                                     <div>
                                         <div style={{display: 'flex', width: '320px'}}>
-                                            <p>{displayName(item.title, 30)}</p>
-                                            <p onClick={() => removeFromBasket(item.id)} style={{marginLeft: 'auto', cursor: 'pointer'}}>X</p>
+                                            <p style={{color: 'white'}}>{displayName(item.title, 30)}</p>
+                                            <p onClick={() => removeFromBasket(item.id)} style={{color: 'white', marginLeft: 'auto', cursor: 'pointer'}}>X</p>
                                         </div>
                                         
-                                        <p>{getPriceText(getPrice(item.price, item.discount))}</p>
+                                        <p style={{color: 'white'}}>{getPriceText(getPrice(item.price, item.discount))}</p>
                                     </div>
                                     </div>
                                 ))}
                             </div>
-                            <div onClick={() => goToBasket()} style={{marginTop: '10px', backgroundColor: colors.primary, width: '90%', display:'flex', height: '50px', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
-                                <p style={{color: 'white'}}>{`Przejdź dalej (${getPriceText(getAllBasketValue())})`}</p>
+                            <div onClick={() => goToBasket()} style={{marginTop: '10px', borderRadius: '10px', backgroundColor: colors.primary, width: '90%', display:'flex', height: '50px', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
+                                <p style={{color: 'white', fontFamily: 'Satoshi-bold'}}>{`Przejdź dalej (${getPriceText(getAllBasketValue())})`}</p>
                             </div>
                         </div>
                     )}

@@ -42,7 +42,7 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
   const [filter, setFilter] = useState('Znizka')
   
 
-  
+  const highlight = false
 
   const fetchTodos = async () => {
     try {
@@ -182,21 +182,24 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
   
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', width: '100%', overflow: 'auto', }}>
+        <div style={{display: 'flex', flexDirection: 'column', width: '100vw', overflowY: 'auto'  }}>
           
           <div style={{position: 'fixed', width: '100%', height: '100vh', zIndex: '-5', backgroundColor: `black`}}></div>
-          <div style={{position: 'fixed',top: 200, left: '1000px', zIndex: -3, width:'200px', height: '200px', backgroundImage: `radial-gradient(circle, ${colors.dot1} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(100px)'}}></div>
-          <div style={{position: 'fixed',top: 100, left: '400px', zIndex: -4, width:'200px', height: '200px', backgroundImage: `radial-gradient(circle, ${colors.dot2} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(90px)'}}></div>
-          
-          <div style={{width: '100', border: '2px solid red', marginTop: '64px'}}>
-            <div style={{display: 'flex'}}>
-            <div style={{width: '50%', height: '100%', border: '2px solid yellow', paddingLeft: '5%'}}>
+          <div style={{position: 'absolute',top: 200, left: '2000px', zIndex: -3, width:'1000px', height: '1000px', backgroundImage: `radial-gradient(circle, ${colors.dot1} 70%, rgba(0,0,0,0) 70%)`, filter: 'blur(300px)'}}></div>
+          <div style={{position: 'absolute',top: 300, left: '-500px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot2} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(400px)'}}></div>
+          <div style={{position: 'absolute',top: -1500, left: '-400px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot3} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(2000px)'}}></div>
 
-              <div style={{width: '100%', height: '60%', border: '2px solid green', marginTop: 'calc( ((100vh - 64px) - ((100vh - 64px) * (70/100)))/2   )', marginBottom: 'calc( ((100vh - 64px) - ((100vh - 64px) * (70/100)))/2   )'}}>
+
+          <div style={{width: '100', border: highlight ? ('2px solid red') : undefined, marginTop: '64px'}}>
+            <div style={{display: 'flex'}}>
+            <div style={{width: '50%', height: '100%', border: highlight ? ('2px solid yellow') : undefined, paddingLeft: '23%'}}>
+
+              <div style={{width: '100%', height: '60%', border: highlight ? ('2px solid green') : undefined, marginTop: 'calc( ((100vh - 64px) - ((100vh - 64px) * (70/100)))/2   )', marginBottom: 'calc( ((100vh - 64px) - ((100vh - 64px) * (70/100)))/2   )'}}>
                 
                 <div style={{width: '320px', height: '40px', backgroundImage: `linear-gradient(to bottom, #272727, #11101D)`, borderRadius: '10px'}}>
                   
-                  <div style={{display: 'flex', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', fontFamily: 'Satoshi'}}>
+                  <div style={{display: 'flex', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', fontFamily: 'Satoshi'}
+                }>
                     <DiscountIcon style={{color: '#66ccff', fontSize: '16px', marginRight: '5px'}}/>
                     <p style={{color: 'white'}}>80%</p>
                     <p style={{color: 'rgb(194, 194, 194)', marginLeft: '5px'}}>DISCOUNT FOR</p>
@@ -215,7 +218,7 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
                     <p style={{color: 'white', fontSize: '60px', width: '100%'}}>Marketplace.</p>
                   </div>
 
-                  <div style={{width: '70%', fontSize: '16px', marginTop: '20px'}}>
+                  <div style={{width: '100%', fontSize: '16px', marginTop: '20px'}}>
                     <p style={{color: 'gray', fontFamily: 'Satoshi'}}>Our team of experts uses a methodology to identify the best deals most likely to fit your needs. 
                     We examine annual percentage rates, annual fees.</p>
                   </div>
@@ -233,9 +236,9 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
 
             </div>
 
-            <div style={{width: '50%',color: 'white', border: '2px solid green', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <div style={{width: '50%',color: 'white', border: highlight ? ('2px solid green') : undefined, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
 
-              <div style={{width: '450px', border: '2px solid red'}}>
+              <div style={{width: '450px', border: highlight ? ('2px solid red') : undefined, marginRight: 'auto', marginLeft: '10%'}}>
               <Slider {...settings}>
 
               {items?.map((item, index) => {
@@ -243,7 +246,7 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
                 if(index < 100){
                   return(
                     <div>
-                      <ItemCard photo1s={photo1s[index]} item={item} getPriceText={getPriceText} getPrice={getPrice} addToBasket={addToBasket} basket={basket} removeFromBasket={removeFromBasket}/>
+                      <ItemCard photo1s={photo1s[index]} item={item} getPriceText={getPriceText} getPrice={getPrice} addToBasket={addToBasket} basket={basket} removeFromBasket={removeFromBasket} type={1}/>
                     </div>)
                 } else {
                   return (null)
@@ -260,7 +263,7 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
 
             </div>
 
-            <div style={{display: 'flex', height: '180px', border: '2px solid cyan', alignItems: 'center', justifyContent: 'center'}}>
+            <div style={{display: 'flex', height: '180px', border: highlight ? ('2px solid cyan') : undefined, alignItems: 'center', justifyContent: 'center'}}>
               <div style={{display: 'flex', alignItems: 'center'}}>
                 <p style={{color: 'white', fontSize: '30px', marginRight: '20px', fontFamily: 'Satoshi-Bold'}}>3800+</p>
                 <motion.p initial={{ opacity: 0 }} animate={{opacity: [0.8, 1, 0.8, 1],backgroundPosition: ["80% 50%", "90% 50%", "70% 50%", "80% 50%"]}} transition={{ duration: 3, repeat: Infinity, repeatType: "mirror" }} style={{fontSize: '20px',fontWeight: 'bold',background: 'linear-gradient(90deg, #66ccff 40%, #ffffff 100%)',backgroundSize: '300% 100%',backgroundPosition: "80% 50%",WebkitBackgroundClip: 'text',WebkitTextFillColor: 'transparent',display: 'inline-block',whiteSpace: 'nowrap',}}
@@ -281,7 +284,7 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
                 >TRANSACTION</motion.p>
               </div>
             </div>
-            <div style={{border: '2px dotted purple', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+            <div style={{border: highlight ? ('2px dotted purple') : undefined, display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
               <div style={{display: 'flex', justifyContent: 'space-between', width: '50%', backgroundColor: 'rgb(255, 255, 255, 0.1)', height: '40px', marginTop: '10px', borderRadius: '30px', padding: '10px', marginBottom: '10px', alignItems: 'center'}}>
                 {headers.map((item, index) => (
                   <div onClick={() => headerClick(item)} style={{color: 'white', backgroundColor: item === filter ? ('gray'):('transparent'), borderRadius: '10px', width: '70px', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '25px', cursor: 'pointer'}}>
@@ -290,11 +293,11 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
                   
                 ))}
               </div>
-              <div style={{display: 'flex', flexWrap: 'wrap', gap: '-10px', justifyContent: 'center', color: 'white', border: '2px dotted green', width: '100%'}}>
+              <div style={{display: 'flex', flexWrap: 'wrap', gap: '-10px', justifyContent: 'center', color: 'white', border: highlight ? ('2px dotted green') : undefined, width: '100%'}}>
                 
                 {discountedItems?.map((item, index) => (
                   
-                  <ItemCard photo1s={photoSorted[index]} item={item} getPriceText={getPriceText} getPrice={getPrice} addToBasket={addToBasket} basket={basket} removeFromBasket={removeFromBasket}/>
+                  <ItemCard photo1s={photoSorted[index]} item={item} getPriceText={getPriceText} getPrice={getPrice} addToBasket={addToBasket} basket={basket} removeFromBasket={removeFromBasket} type={2}/>
                   
                   
                 ))}
