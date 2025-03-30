@@ -28,14 +28,14 @@ function Basket({basket, removeFromBasket}: BasketProps){
 
     return (
         
-        <div style={{height: 'calc(100vh - 64px)', display: 'flex', justifyContent: 'center'}}>
+        <div style={{height: 'calc(100vh - 146px)', display: 'flex', justifyContent: 'center'}}>
             
-            <div style={{position: 'fixed', width: '100%', height: '100vh', zIndex: '-5', backgroundColor: `rgb(0, 0, 0)`}}></div>
+            <div style={{position: 'fixed', width: '100vw', height: '100vh', zIndex: '-5', backgroundColor: `rgb(0, 0, 0)`}}></div>
             <div style={{position: 'fixed',top: 200, left: '2000px', zIndex: -3, width:'1000px', height: '1000px', backgroundImage: `radial-gradient(circle, ${colors.dot1} 70%, rgba(0,0,0,0) 70%)`, filter: 'blur(300px)'}}></div>
             <div style={{position: 'fixed',top: 300, left: '-500px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot2} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(400px)'}}></div>
             <div style={{position: 'fixed',top: -1500, left: '-400px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot3} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(2000px)'}}></div>
 
-            <div style={{display: 'flex', width: '1000px', height: '500px', marginTop: '64px'}}>
+            <div style={{display: 'flex', width: '1000px', height: '500px', marginTop: 'auto', marginBottom: 'auto', border: '2px solid green'}}>
                 <div>
                     <div style={{ padding: '15px', backgroundColor: colors.blackBackgroundColorInBasket, width: '595px', height: '100px', marginTop: '10px', borderRadius: '25px', }}>
                         <p style={{fontSize: '20px', fontWeight: 'bold', color: 'white'}}>{`Koszyk (${basket.length})`}</p>

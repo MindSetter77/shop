@@ -4,7 +4,7 @@ import {  FireExtinguisher, Person2, ShoppingBasket } from "@mui/icons-material"
 import { useNavigate } from "react-router-dom";
 import { User } from "../../App";
 import Item from "../item/Item";
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
 
 interface NavbarProps {
     user: User | null;
@@ -91,10 +91,11 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
                         <div style={{
                             position: 'absolute',
                             top: '64px',
-                            left: '100',
-                            backgroundColor: 'white',
-                            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                            right: '50px',
+                            backgroundColor: 'rgb(0,0,0, 0.1)',
+                            boxShadow: `0px 4px 6px ${colors.primary}`,
                             borderRadius: '5px',
+                            border: `2px solid ${colors.primary}`,
                             minWidth: '120px',
                             zIndex: 10
                         }}>
@@ -106,7 +107,7 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
                                     style={{ display: 'flex', padding: '10px', cursor: 'pointer' }}
                                 >
                                     <img src={flag} style={{ height: '15px', marginTop: '4px' }} />
-                                    <p style={{ marginLeft: '5px' }}>{label}</p>
+                                    <p style={{ marginLeft: '5px', color: 'white' }}>{label}</p>
                                 </div>
                             ))}
                         </div>
@@ -156,7 +157,7 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
                 </div>
                 
                 
-                <div onClick={() => navigate('/login')} style={{ display: 'flex', alignItems: 'center', height: '80%', cursor: 'pointer' }}>
+                <div onClick={() => !user ? (navigate('/login')): (navigate(`/profile/${user.id}`))} style={{ display: 'flex', alignItems: 'center', height: '80%', cursor: 'pointer' }}>
                     <Person2 style={{ fontSize: '35px', color: colors.text }} />
                     <div>
                         <p style={{ marginLeft: '10px', fontSize: '20px', color: colors.text }}>

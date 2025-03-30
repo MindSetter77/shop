@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Basket from "./components/basket/Basket";
 import Footer from "./components/footer/Footer";
+import Profile from "./components/profile/Profile";
 
 export interface User {
   id: number;
@@ -129,6 +130,8 @@ function App() {
         <Route path="/login" element={<Login setUser={setUser}/>} />
         <Route path="/item/:id" element={<Item language={language} getPriceText={getPriceText} getPrice={getPrice}/>} />
         <Route path="/basket" element={<Basket basket={basket} removeFromBasket={removeFromBasket}/>} />
+
+        <Route path="/profile/:id" element={<Profile setUser={setUser}/>} />
       </Routes>
       <Footer/>
     </Router>

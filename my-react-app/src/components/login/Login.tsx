@@ -13,6 +13,8 @@ function Login({setUser}: LoginProps) {
 
     const navigate = useNavigate()
 
+    const loginHighligh = false
+
     const [email, setEmail] = useState('')
     const [emailValid, setEmailValid] = useState(false)
     const [mode, setMode] = useState('insertEmail')
@@ -172,18 +174,28 @@ function Login({setUser}: LoginProps) {
         setCode(event.target.value)
     }
 
+    const checkThreeFields = () => {
+        if(username){        
+            if((password === repeatPassword) && password.length > 0){
+                return true
+            }
+        }
+        return false
+    }
+
     return(
-        <div style={{backgroundColor: colors.background, height: 'calc(100vh - 64px)', display: 'flex', justifyContent: 'center'}}>
-            <div style={{width: '400px', height: '500px', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-                <p style={{marginTop: '30px', marginBottom: '10px', fontSize: '20px'}}>Zarejestruj się / zaloguj</p>
+        <div style={{backgroundColor: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center', height: 'calc(100vh - 146px)'}}>
+            <div style={{width: '400px', display: 'flex', alignItems: 'center', flexDirection: 'column', border: loginHighligh ? ('2px solid red') : undefined}}>
+                <div style={{display: 'flex', flexDirection: 'column', paddingTop: '30px', paddingBottom: '30px', alignItems: 'center', border: loginHighligh ? ('2px solid blue'): undefined, backgroundColor: 'rgb(45,45,45, 0.5)', borderRadius: '25px'}}>
+                <p style={{marginBottom: '10px', fontSize: '25px', color: 'white', fontFamily: 'Satoshi-Bold'}}>Zarejestruj się / zaloguj</p>
                 
                 <div style={{display: 'flex',alignItems: 'center', marginBottom: '20px'}}>
                     <VerifiedIcon style={{fontSize: "15px", color: 'green', marginRight: '5px'}}/>
-                    <p style={{fontSize: '13px'}}>Twoje dane są chronione</p>
+                    <p style={{fontSize: '13px', color: 'white'}}>Twoje dane są chronione</p>
                 </div>
 
                 {mode === 'insertEmail' ? (
-                    <input placeholder="Adres email" value={email} onChange={changeEmailValue} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px'}}></input>
+                    <input placeholder="Adres email" value={email} onChange={changeEmailValue} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px', borderRadius: '15px'}}></input>
                 ) : mode === 'login' ? (
                     <input placeholder="Hasło" value={password} onChange={changePassword} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px'}}></input>
                 ) : mode === 'login2' ? (
@@ -197,15 +209,23 @@ function Login({setUser}: LoginProps) {
                     </div>
                 )}
                 
-
-                <div onClick={() => continueClick()} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '85%', height: '50px', backgroundColor: emailValid === false? colors.secondary : colors.primary , cursor: emailValid === false ? 'not-allowed' : 'pointer', borderRadius: '20px'}}>
-                    <p>Kontynuuj</p>
-                </div>
+                {
+                    mode === 'register' ? (
+                        <div onClick={() => checkThreeFields() ? (continueClick()) : null} style={{display: 'flex', justifyContent: 'center', marginBottom: '10px', alignItems: 'center', width: '85%', height: '50px', backgroundColor: checkThreeFields() ? colors.primary : colors.secondary , cursor: checkThreeFields() ? 'pointer' : 'not-allowed', borderRadius: '20px'}}>
+                            <p>chuuj</p>
+                        </div>
+                    ) : (
+                        <div onClick={() => continueClick()} style={{display: 'flex', justifyContent: 'center', marginBottom: '10px', alignItems: 'center', width: '85%', height: '50px', backgroundColor: emailValid === false? colors.secondary : colors.primary , cursor: emailValid === false ? 'not-allowed' : 'pointer', borderRadius: '20px'}}>
+                            <p>Kontynuuj</p>
+                        </div>
+                    )
+                }
+                
 
                 <div style={{display: 'flex', justifyContent: 'center'}}>
-                    <p style={{fontSize: '11px', textAlign: 'center', marginTop: '10px'}}>Kontynuując, zgadzasz się z naszym Regulamin i potwierdzasz, że zapoznałeś się z naszym Ochrona Prywatności.</p>
+                    <p style={{fontSize: '13px', textAlign: 'center', marginTop: '10px', color: 'white'}}>Kontynuując, zgadzasz się z naszym Regulamin i potwierdzasz, że zapoznałeś się z naszym Ochrona Prywatności.</p>
                 </div>
-                
+                </div>
             </div>
         </div>
     )

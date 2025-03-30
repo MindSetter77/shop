@@ -11,7 +11,7 @@ require('dotenv').config();
 
 const corsOptions = {
     origin: 'http://localhost:5173',
-    methods: 'GET,POST',
+    methods: 'GET,POST,DELETE',
     credentials: true,
 };
 
@@ -292,11 +292,38 @@ app.post('/getSortedItems', async(req, res) => {
     });
 });
 
-app.post('/getSortedItem', async(req, res) => {
-    const sql = `SELECT * FROM items`;
+app.delete('/deleteTodos', (req, res) => {
+    
+    
+
+    const cookies = req.headers.cookie; // Pobranie ciasteczek
+    if (!cookies) {
+        
+        return res.status(401).json({ message: 'Brak ciasteczek' });
+    
+    }
+    
+    const match = cookies.split('; ').find(cookie => cookie.startsWith('WebPhotoSession='));
+    if (!match) {
+        return res.status(401).json({ message: 'Brak sesji' });
+    }
+
+    const session_id = match.split('=')[1];
+    if (!session_memory[session_id]) {
+        return res.status(401).json({ message: 'Nieprawidłowa sesja' });
+    }
 
     
 
+    // Możesz np. usunąć użytkownika z sesji
+    delete session_memory[session_id];
+
+    res.clearCookie('WebPhotoSession'); // Usunięcie ciasteczka
+    res.status(200).json({ message: 'Wylogowano pomyślnie' });
+});
+
+app.post('/getSortedItem', async(req, res) => {
+    const sql = `SELECT * FROM items`;
     const sort_type = req.body.sort_type;
 
     console.log(`sort_type: ${sort_type}`)
