@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-      "build": "npm run build --prefix my-react-app",
-      "start": "npm run start --prefix server"
+      "build": "npm install --prefix my-react-app && npm run build --prefix my-react-app",
+      "start": "npm run preview --prefix my-react-app"
     }
   }
