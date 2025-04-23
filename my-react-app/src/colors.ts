@@ -9,6 +9,8 @@ export const colors = {
     dot2: 'rgb(0, 58, 68)',
     dot3: 'rgb(102, 0, 88)',
 
+    
+
     palette1: '#ffee32',
     palette2: '#ffffff',
     palette3: '#202020',

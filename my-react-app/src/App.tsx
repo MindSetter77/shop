@@ -49,6 +49,8 @@ function App() {
   
   const [user, setUser] = useState<User | null>(null);
   const [language, setLanguage] = useState<string>('PL')
+  const [languageData, setLangaugeData] = useState<{ [key: string]: any }>({})
+
   const [basket, setBasket] = useState<any[]>([])
   const [isBasketOpen, setIsBasketOpen] = useState<Boolean>(false)
 
@@ -93,6 +95,24 @@ function App() {
     }
   };
 
+  const fetchTodos = async () => {
+    try {
+      // Pobranie todos
+      const todosResponse = await fetch('http://localhost:3000/todos', {
+        method: 'GET',
+        credentials: 'include', // Ważne, aby wysłać ciasteczka
+      });
+      
+      if (!todosResponse.ok) {
+        throw new Error('Failed to fetch todos');
+      }
+      const todosData = await todosResponse.json();
+      setUser(todosData.userSession.result)
+    } catch (err) {
+
+    }
+  };
+
   const getPriceText = (itemPrice: number) => {
       
       switch(language){
@@ -116,17 +136,49 @@ function App() {
             let ret = val * (100-d)
             return parseFloat(ret.toFixed(2))
         } 
+
+    const changeLanguage = async(language: string) => {
+      
+      
+      try {
+        
+        const response = await fetch('http://localhost:3000/getLanguage', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ lang: language }),
+        });
+    
+        if (!response.ok) {
+          throw new Error('Failed to fetch language data');
+        }
+        
+    
+        const data = await response.json();
+        setLangaugeData(data)
+
+      } catch (err) {
+        console.error('Error fetching language data:', err);
+      }
+      
+      
+      
+    } 
   
 
   useEffect(() => {
     fetchExchangeRate(language)
-  }, [])
+    changeLanguage(language)
+    fetchTodos()
+
+  }, [language])
 
   return (
     <Router>
-      <Navbar user={user} language={language} setLanguage={setLanguage} basket={basket} setIsBasketOpen={setIsBasketOpen} isBasketOpen={isBasketOpen} removeFromBasket={removeFromBasket} fetchExchangeRate={fetchExchangeRate} getPrice={getPrice} getPriceText={getPriceText} priceTable={priceTable}/>
+      <Navbar user={user} language={language} setLanguage={setLanguage} basket={basket} setIsBasketOpen={setIsBasketOpen} isBasketOpen={isBasketOpen} removeFromBasket={removeFromBasket} fetchExchangeRate={fetchExchangeRate} getPrice={getPrice} getPriceText={getPriceText} priceTable={priceTable} languageData={languageData}/>
       <Routes>
-        <Route path="/" element={<Home setUser={setUser} addToBasket={addToBasket} basket={basket} language={language} getPriceText={getPriceText} getPrice={getPrice} removeFromBasket={removeFromBasket}/>}/>
+        <Route path="/" element={<Home setUser={setUser} addToBasket={addToBasket} basket={basket} language={language} getPriceText={getPriceText} getPrice={getPrice} removeFromBasket={removeFromBasket} languageData={languageData}/>}/>
         <Route path="/login" element={<Login setUser={setUser}/>} />
         <Route path="/item/:id" element={<Item language={language} getPriceText={getPriceText} getPrice={getPrice}/>} />
         <Route path="/basket" element={<Basket basket={basket} removeFromBasket={removeFromBasket}/>} />

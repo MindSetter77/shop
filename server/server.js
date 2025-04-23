@@ -28,15 +28,16 @@ app.use(express.json());
 const PORT = 3000;
 
 const db = mysql.createConnection({
-    host: 'localhost',
+    host: 'maglev.proxy.rlwy.net',
+    port: 27107,
     user: 'root',
-    password: 'Sonia484pl!',
+    password: 'bqjigiBJNxQdRDYTBlxewtfwCdTEevOB',
     database: 'sklep',
   });
 
 app.post('/checkIfUserExists', (req, res) => {
     const email = req.body.emailAdress; 
-    console.log(email)
+
     const sql = 'SELECT username FROM users WHERE email = ?';
     db.query(sql, [email], (err, result) => {
         if (err) {
@@ -257,6 +258,28 @@ app.post('/getItems', async(req, res) => {
     });
 });
 
+app.post('/getUser', async(req, res) => {
+    const id = req.body.user_id;
+    const sql = `SELECT * FROM users WHERE id = ${id}`;
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.error("Błąd zapytania SQL:", err);
+            return res.status(500).json({ error: err.message });
+        }
+
+        const clean_result = result.map((user) => {
+            const {password, ...rest} = user
+            return rest
+        })
+
+        console.log('Get user result:')
+        console.log(result)
+
+        res.status(200).json(clean_result);
+    });
+});
+
 app.post('/getSortedItems', async(req, res) => {
 
     let sql = ''
@@ -284,9 +307,6 @@ app.post('/getSortedItems', async(req, res) => {
             console.error("Błąd zapytania SQL:", err);
             return res.status(500).json({ error: err.message });
         }
-        console.log("================================")
-        console.log(sort_type);
-        console.log("================================")
 
         res.status(200).json(result);
     });
@@ -326,7 +346,7 @@ app.post('/getSortedItem', async(req, res) => {
     const sql = `SELECT * FROM items`;
     const sort_type = req.body.sort_type;
 
-    console.log(`sort_type: ${sort_type}`)
+    
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -346,7 +366,7 @@ app.post('/getSortedItem', async(req, res) => {
 
 
 
-        console.log('OK');
+        
         res.status(200).json(return_items);
     });
 });
@@ -359,7 +379,7 @@ app.post('/getPhotoUrls', async(req, res) => {
 
     const sql = `SELECT * FROM photos WHERE src = 'http://localhost:3000/images/item_18/image_1.jpg'`;
 
-    console.log(sql);
+    
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -377,6 +397,19 @@ app.post('/getPhotoUrls', async(req, res) => {
 
         res.status(200).json(image1urls);
     });
+});
+
+const language = require('./language.json');
+
+app.post('/getLanguage', async(req, res) => {
+    const lang = req.body.lang;
+    //const sql = `SELECT * FROM photos WHERE src = 'http://localhost:3000/images/item_18/image_1.jpg'`;
+
+    if(lang==='PL'){
+        return res.status(200).json(language.PL)
+    } else {
+        return res.status(200).json(language.EN)
+    }
 });
 
 app.get('/todos', (req, res) => {

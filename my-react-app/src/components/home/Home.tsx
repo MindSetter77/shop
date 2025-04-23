@@ -24,10 +24,11 @@ interface HomeProps {
     getPriceText: (itemPrice: number) => string;
     getPrice: (p: number, d: number) => number;
     removeFromBasket: (id: number) => void;
+    languageData: { [key: string]: string };
 
 }
 
-function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, removeFromBasket }: HomeProps){
+function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, removeFromBasket, languageData }: HomeProps){
 
   const navigate = useNavigate();
   
@@ -43,24 +44,6 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
   
 
   const highlight = false
-
-  const fetchTodos = async () => {
-    try {
-      // Pobranie todos
-      const todosResponse = await fetch('http://localhost:3000/todos', {
-        method: 'GET',
-        credentials: 'include', // Ważne, aby wysłać ciasteczka
-      });
-      
-      if (!todosResponse.ok) {
-        throw new Error('Failed to fetch todos');
-      }
-      const todosData = await todosResponse.json();
-      setUser(todosData.userSession.result)
-    } catch (err) {
-
-    }
-  };
 
   const setPhotoUrls = (data: any, type: number) => {
     let url_list = []
@@ -143,7 +126,6 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
 
       let items_str = '2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21'
 
-      fetchTodos(); // Wywołanie funkcji fetchData
       getItems(items_str)
 
       getDiscountItems(filter)
@@ -153,9 +135,6 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
   
 
   const [isOpen, setIsOpen] = useState(true);
-
-  
-  
 
   var settings = {
     dots: true,
@@ -185,60 +164,79 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
         <div style={{display: 'flex', flexDirection: 'column', width: '100vw', overflowY: 'auto'  }}>
           
           <div style={{position: 'fixed', width: '100%', height: '100vh', zIndex: '-5', backgroundColor: `black`}}></div>
-          <div style={{position: 'absolute',top: 200, left: '2000px', zIndex: -3, width:'1000px', height: '1000px', backgroundImage: `radial-gradient(circle, ${colors.dot1} 70%, rgba(0,0,0,0) 70%)`, filter: 'blur(300px)'}}></div>
-          <div style={{position: 'absolute',top: 300, left: '-500px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot2} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(400px)'}}></div>
-          <div style={{position: 'absolute',top: -1500, left: '-400px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot3} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(2000px)'}}></div>
+          <motion.div 
+          initial={{ x: 0, opacity: 0 }}  // Startowa pozycja - poza ekranem
+          animate={{ x: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+          transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15 }} // Płynne pojawianie 
+          style={{position: 'absolute',top: 200, left: '2000px', zIndex: -3, width:'1000px', height: '1000px', backgroundImage: `radial-gradient(circle, ${colors.dot1} 70%, rgba(0,0,0,0) 70%)`, filter: 'blur(300px)'}}></motion.div>
+          <motion.div 
+          initial={{ x: -500, opacity: 0 }}  // Startowa pozycja - poza ekranem
+          animate={{ x: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+          transition={{ type: "tween", duration: 3, stiffness: 90, damping: 15 }} // Płynne pojawianie 
+          style={{position: 'absolute',top: 300, left: '-500px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot2} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(400px)'}}></motion.div>
+          <motion.div 
+          initial={{ x: -500, y: -500, opacity: 0 }}  // Startowa pozycja - poza ekranem
+          animate={{ x: 0, y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+          transition={{ type: "tween", duration: 2, stiffness: 90, damping: 15 }} // Płynne pojawianie 
+          style={{position: 'absolute',top: -1500, left: '-400px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot3} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(2000px)'}}></motion.div>
 
 
           <div style={{width: '100', border: highlight ? ('2px solid red') : undefined, marginTop: '64px'}}>
             <div style={{display: 'flex'}}>
-            <div style={{width: '50%', height: '100%', border: highlight ? ('2px solid yellow') : undefined, paddingLeft: '23%'}}>
+            <div style={{width: '50%', height: '100%', border: highlight ? ('2px solid yellow') : undefined, paddingLeft: '23%', display: 'flex', alignContent: 'center', }}>
 
-              <div style={{width: '100%', height: '60%', border: highlight ? ('2px solid green') : undefined, marginTop: 'calc( ((100vh - 64px) - ((100vh - 64px) * (70/100)))/2   )', marginBottom: 'calc( ((100vh - 64px) - ((100vh - 64px) * (70/100)))/2   )'}}>
+              <div style={{width: '100%', height: '60%', border: highlight ? ('2px solid green') : undefined, marginTop: '100px', marginBottom: '10px'}}>
                 
-                <div style={{width: '320px', height: '40px', backgroundImage: `linear-gradient(to bottom, #272727, #11101D)`, borderRadius: '10px'}}>
+                <motion.div 
+                initial={{ y: 10, opacity: 0 }}  // Startowa pozycja - poza ekranem
+                animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+                transition={{ type: "tween", delay: 1, duration: 1, stiffness: 90, damping: 15 }} // Płynne pojawianie 
+                style={{width: '320px', height: '40px', backgroundImage: `linear-gradient(to bottom, #272727, #11101D)`, borderRadius: '10px'}}>
                   
                   <div style={{display: 'flex', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', fontFamily: 'Satoshi'}
                 }>
                     <DiscountIcon style={{color: '#66ccff', fontSize: '16px', marginRight: '5px'}}/>
                     <p style={{color: 'white'}}>80%</p>
-                    <p style={{color: 'rgb(194, 194, 194)', marginLeft: '5px'}}>DISCOUNT FOR</p>
-                    <p style={{color: 'white', marginLeft: '5px'}}>NEW</p>
-                    <p style={{color: 'rgb(194, 194, 194)', marginLeft: '5px'}}>ACCOUNTS</p>
+                    <p style={{color: 'rgb(194, 194, 194)', marginLeft: '5px'}}>{languageData.discountText1}</p>
+                    <p style={{color: 'white', marginLeft: '5px'}}>{languageData.discountText2}</p>
+                    <p style={{color: 'rgb(194, 194, 194)', marginLeft: '5px'}}>{languageData.discountText3}</p>
 
                   </div>
 
                   
-                </div>
+                </motion.div>
 
-                <div style={{display: 'flex', flexDirection: 'column', fontFamily: 'Satoshi-Black'}}>
-                    <p style={{color: 'white', fontSize: '60px'}}>The Next</p>
+                <motion.div 
+                initial={{ y: 100, opacity: 0 }}  // Startowa pozycja - poza ekranem
+                animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+                transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15 }} // Płynne pojawianie 
+                style={{display: 'flex', flexDirection: 'column', fontFamily: 'Satoshi-Black'}}>
+                    <p style={{color: 'white', fontSize: '60px'}}>{languageData.mainSlogan1}</p>
                     <motion.p initial={{ opacity: 0 }} animate={{opacity: [0.8, 1, 0.8, 1],backgroundPosition: ["80% 50%", "90% 50%", "70% 50%", "80% 50%"]}} transition={{ duration: 3, repeat: Infinity, repeatType: "mirror" }} style={{fontFamily: 'Satoshi-Bold', fontSize: '60px',fontWeight: 'bold',background: 'linear-gradient(90deg, #66ccff 40%, #ffffff 100%)',backgroundSize: '300% 100%',backgroundPosition: "80% 50%",WebkitBackgroundClip: 'text',WebkitTextFillColor: 'transparent',display: 'inline-block',whiteSpace: 'nowrap',}}
-                    >Generation</motion.p>
-                    <p style={{color: 'white', fontSize: '60px', width: '100%'}}>Marketplace.</p>
-                  </div>
+                    >{languageData.mainSlogan2}</motion.p>
+                    <p style={{color: 'white', fontSize: '60px', width: '100%'}}>{languageData.mainSlogan3}</p>
+                  </motion.div>
 
-                  <div style={{width: '100%', fontSize: '16px', marginTop: '20px'}}>
-                    <p style={{color: 'gray', fontFamily: 'Satoshi'}}>Our team of experts uses a methodology to identify the best deals most likely to fit your needs. 
-                    We examine annual percentage rates, annual fees.</p>
-                  </div>
+                  <motion.div 
+                  initial={{ y: 0, opacity: 0 }}  // Startowa pozycja - poza ekranem
+                  animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+                  transition={{ type: "tween", delay: 1, duration: 1, stiffness: 90, damping: 15 }} // Płynne pojawianie 
+                  style={{width: '100%', fontSize: '16px', marginTop: '20px'}}>
+                    <p style={{color: 'gray', fontFamily: 'Satoshi'}}>{languageData.underMainSlogan}</p>
+                  </motion.div>
 
 
               </div>
-
-              <div>
-
-                
-              
-              </div>
-
-              
 
             </div>
 
             <div style={{width: '50%',color: 'white', border: highlight ? ('2px solid green') : undefined, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
 
-              <div style={{width: '450px', border: highlight ? ('2px solid red') : undefined, marginRight: 'auto', marginLeft: '10%'}}>
+              <motion.div 
+              initial={{ x: 40, y: 20, opacity: 0 }}  // Startowa pozycja - poza ekranem
+              animate={{ x: 0, y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+              transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15 }} // Płynne pojawianie 
+              style={{width: '450px', border: highlight ? ('2px solid red') : undefined, marginRight: 'auto', marginLeft: '10%'}}>
               <Slider {...settings}>
 
               {items?.map((item, index) => {
@@ -255,7 +253,7 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
               })}
               
               </Slider>
-              </div>
+              </motion.div>
 
 
               
@@ -264,45 +262,75 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
             </div>
 
             <div style={{display: 'flex', height: '180px', border: highlight ? ('2px solid cyan') : undefined, alignItems: 'center', justifyContent: 'center'}}>
-              <div style={{display: 'flex', alignItems: 'center'}}>
+              <motion.div 
+              initial={{ y: 50, opacity: 0 }}  // Startowa pozycja - poza ekranem
+              animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+              transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15, delay: 1}} // Płynne pojawianie 
+              style={{display: 'flex', alignItems: 'center'}}>
                 <p style={{color: 'white', fontSize: '30px', marginRight: '20px', fontFamily: 'Satoshi-Bold'}}>3800+</p>
                 <motion.p initial={{ opacity: 0 }} animate={{opacity: [0.8, 1, 0.8, 1],backgroundPosition: ["80% 50%", "90% 50%", "70% 50%", "80% 50%"]}} transition={{ duration: 3, repeat: Infinity, repeatType: "mirror" }} style={{fontSize: '20px',fontWeight: 'bold',background: 'linear-gradient(90deg, #66ccff 40%, #ffffff 100%)',backgroundSize: '300% 100%',backgroundPosition: "80% 50%",WebkitBackgroundClip: 'text',WebkitTextFillColor: 'transparent',display: 'inline-block',whiteSpace: 'nowrap',}}
-                >USER ACTIVE</motion.p>
-                <div style={{width: '2px', height: '10px', backgroundColor: 'gray', marginLeft: '40px'}}/>
-              </div>
+                >{languageData.activeUser}</motion.p>
+                
+              </motion.div>
 
-              <div style={{display: 'flex', alignItems: 'center', marginLeft: '40px'}}>
+              <div style={{width: '2px', height: '10px', backgroundColor: 'gray', marginLeft: '40px'}}/>
+
+              <motion.div 
+              initial={{ y: 50, opacity: 0 }}  // Startowa pozycja - poza ekranem
+              animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+              transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15, delay: 2 }} // Płynne pojawianie 
+              style={{display: 'flex', alignItems: 'center', marginLeft: '40px'}}>
                 <p style={{color: 'white', fontSize: '30px', marginRight: '20px', fontFamily: 'Satoshi-Bold'}}>230+</p>
                 <motion.p initial={{ opacity: 0 }} animate={{opacity: [0.8, 1, 0.8, 1],backgroundPosition: ["80% 50%", "90% 50%", "70% 50%", "80% 50%"]}} transition={{ duration: 3, repeat: Infinity, repeatType: "mirror" }} style={{fontSize: '20px',fontWeight: 'bold',background: 'linear-gradient(90deg, #66ccff 40%, #ffffff 100%)',backgroundSize: '300% 100%',backgroundPosition: "80% 50%",WebkitBackgroundClip: 'text',WebkitTextFillColor: 'transparent',display: 'inline-block',whiteSpace: 'nowrap',}}
-                >TRUSTED BY COMPANY</motion.p>
-                <div style={{width: '2px', height: '10px', backgroundColor: 'gray', marginLeft: '40px'}}/>
-              </div>
+                >{languageData.company}</motion.p>
+                
+              </motion.div>
 
-              <div style={{display: 'flex', alignItems: 'center', marginLeft: '40px'}}>
+              <div style={{width: '2px', height: '10px', backgroundColor: 'gray', marginLeft: '40px'}}/>
+
+              <motion.div 
+              initial={{ y: 50, opacity: 0 }}  // Startowa pozycja - poza ekranem
+              animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+              transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15, delay: 3 }} // Płynne pojawianie 
+              style={{display: 'flex', alignItems: 'center', marginLeft: '40px'}}>
                 <p style={{color: 'white', fontSize: '30px', marginRight: '20px', fontFamily: 'Satoshi-Bold'}}>$230M+</p>
                 <motion.p initial={{ opacity: 0 }} animate={{opacity: [0.8, 1, 0.8, 1],backgroundPosition: ["80% 50%", "90% 50%", "70% 50%", "80% 50%"]}} transition={{ duration: 3, repeat: Infinity, repeatType: "mirror" }} style={{fontSize: '20px',fontWeight: 'bold',background: 'linear-gradient(90deg, #66ccff 40%, #ffffff 100%)',backgroundSize: '300% 100%',backgroundPosition: "80% 50%",WebkitBackgroundClip: 'text',WebkitTextFillColor: 'transparent',display: 'inline-block',whiteSpace: 'nowrap',}}
-                >TRANSACTION</motion.p>
-              </div>
+                >{languageData.transaction}</motion.p>
+              </motion.div>
             </div>
             <div style={{border: highlight ? ('2px dotted purple') : undefined, display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-              <div style={{display: 'flex', justifyContent: 'space-between', width: '50%', backgroundColor: 'rgb(255, 255, 255, 0.1)', height: '40px', marginTop: '10px', borderRadius: '30px', padding: '10px', marginBottom: '10px', alignItems: 'center'}}>
+              <div style={{display: 'flex', border: '1px solid gray', justifyContent: 'space-between', width: '50%', backgroundColor: 'rgb(255, 255, 255, 0.1)', height: '40px', marginTop: '10px', borderRadius: '30px', padding: '10px', marginBottom: '10px', alignItems: 'center'}}>
                 {headers.map((item, index) => (
-                  <div onClick={() => headerClick(item)} style={{color: 'white', backgroundColor: item === filter ? ('gray'):('transparent'), borderRadius: '10px', width: '70px', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '25px', cursor: 'pointer'}}>
-                    <p>{item}</p>
-                  </div>
+                  <motion.div 
+                  initial={{ x: 20, opacity: 0 }}  // Startowa pozycja - poza ekranem
+                  animate={{ x: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+                  transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15, delay: index * 0.5 }} // Płynne pojawianie 
+                  onClick={() => headerClick(item)} style={{color: 'white', backgroundColor: item === filter ? ('gray'):('transparent'), border: item === filter ? ('1px solid white') : ('transparent') , borderRadius: '13px', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '25px', cursor: 'pointer'}}>
+                    <p style={{marginLeft: '10px', marginRight: '10px'}}>{item}</p>
+                  </motion.div>
                   
                 ))}
               </div>
-              <div style={{display: 'flex', flexWrap: 'wrap', gap: '-10px', justifyContent: 'center', color: 'white', border: highlight ? ('2px dotted green') : undefined, width: '100%'}}>
+              <motion.div 
+              initial={{ y: 0, opacity: 0 }}  // Startowa pozycja - poza ekranem
+              animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+              transition={{ type: "tween", duration: 2, stiffness: 90, damping: 15, delay: 1 }} // Płynne pojawianie 
+              style={{display: 'flex',paddingTop: '10px', position: 'relative', zIndex: 0 , flexWrap: 'wrap', gap: '-10px', justifyContent: 'center', color: 'white', border: '1px solid rgb(165, 165, 230)', borderBottom: '0px', backgroundColor: 'rgb(109, 110, 179, 0.5)', borderTopLeftRadius: '20px', borderTopRightRadius: '20px', width: '95%', marginTop: '10px', overflow: 'hidden', boxShadow: '0 -10px 80px rgb(139, 255, 245, 0.2)'}}>
                 
+                <div style={{position: 'absolute', right: '-100px', top: '0px', width: '500px', height: '500px', zIndex: -1, backgroundColor: 'red', backgroundImage: `radial-gradient(circle, rgb(167, 167, 223) 70%, rgba(0,0,0,0) 70%)`, filter: 'blur(180px)'}}></div>
+                <div style={{position: 'absolute', top: '700px', left: '-600px', width: '2000px', height: '2000px', zIndex: -1, backgroundImage: `radial-gradient(circle, rgb(84, 139, 187) 70%, rgba(0,0,0,0) 70%)`, filter: 'blur(180px)'}}></div>
+
                 {discountedItems?.map((item, index) => (
-                  
-                  <ItemCard photo1s={photoSorted[index]} item={item} getPriceText={getPriceText} getPrice={getPrice} addToBasket={addToBasket} basket={basket} removeFromBasket={removeFromBasket} type={2}/>
-                  
-                  
+                  <motion.div
+                  initial={{ y: 0, opacity: 0 }}  // Startowa pozycja - poza ekranem
+                  animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+                  transition={{ type: "tween", duration: 0.5, stiffness: 90, damping: 15, delay: (index * 0.3) + 3 }} // Płynne pojawianie 
+                  >
+                    <ItemCard photo1s={photoSorted[index]} item={item} getPriceText={getPriceText} getPrice={getPrice} addToBasket={addToBasket} basket={basket} removeFromBasket={removeFromBasket} type={2}/>
+                  </motion.div>
                 ))}
                 
-              </div>
+              </motion.div>
             </div>
           </div>
           

@@ -1,0 +1,39 @@
+{
+    "PL": {
+        "name": "Best market",
+        "notLogged": "Niezalogowano",
+    
+        "discountText1": "ZNIŻKA DLA",
+        "discountText2": "NOWYCH",
+        "discountText3": "KONT",
+
+        "mainSlogan1": "The Next",
+        "mainSlogan2": "Generation",
+        "mainSlogan3": "Marketplace.",
+
+        "underMainSlogan": "Nasz zespół ekspertów wykorzystuje metodologię, aby zidentyfikować najlepsze oferty, które najlepiej odpowiadają Twoim potrzebom. Badamy roczne stopy oprocentowania, roczne opłaty.",
+    
+        "activeUser": "AKTYWNYCH UŻYTKOWNIKÓW",
+        "company": "ZAUFANYCH FIRM",
+        "transaction": "TRANSAKCJI"
+    },
+
+    "EN": {
+        "name": "Best market",
+        "notLogged": "Not logged",
+    
+        "discountText1": "DISCOUNT FOR",
+        "discountText2": "NEW",
+        "discountText3": "ACCOUNTS",
+
+        "mainSlogan1": "The Next",
+        "mainSlogan2": "Generation",
+        "mainSlogan3": "Marketplace.",
+
+        "underMainSlogan": "Our team of experts uses a methodology to identify the best deals most likely to fit your needs. We examine annual percentage rates, annual fees.",
+    
+        "activeUser": "USER ACTIVE",
+        "company": "TRUSTED BY COMPANY",
+        "transaction": "TRANSACTION"
+    }
+}

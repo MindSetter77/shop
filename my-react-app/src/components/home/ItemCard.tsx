@@ -32,15 +32,15 @@ function ItemCard({photo1s, item, getPriceText, getPrice, addToBasket, basket, r
     }
 
     return(
-        <div style={{margin: '20px', padding: '20px', borderRadius: '25px', width: '400px',background: 'linear-gradient(to bottom,#35333E 0%,rgb(22, 19, 29) 100%)' }}>
+        <div style={{margin: '20px', padding: '20px', borderRadius: '25px', width: '400px',background: 'linear-gradient(to bottom,#35333E 0%,rgb(22, 19, 29) 100%)', boxShadow: type === 1 ? ('0 5px 15px rgba(204, 204, 204, 0.2)' ) : ('0 0 40px rgb(94, 189, 189, 0.2)'), border: '1px solid gray'}}>
             <div style={{display: 'flex', flexDirection: 'column'}}>
                 <div style={{display: 'flex'}}>
                     <img onClick={() => console.log(photo1s)} src={photo1s} style={{maxWidth: '100px', maxHeight: '100px', borderRadius: '20px'}}/>
                     <div style={{display: 'flex',justifyContent: 'center', textOverflow: 'ellipsis', overflow: 'hidden', flexDirection: 'column',  marginLeft: '10px'}}>
                     <p style={{fontFamily: 'Satoshi-bold', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden'}}>{item.title}</p>
                     <div onClick={() => console.log(item)} style={{display: 'flex', alignItems: 'center'}}>
-                        <p style={{textDecoration: 'line-through', fontSize: '14px'}}>{`${item.price}`}</p>
-                        <p style={{marginLeft: '5px'}}>{`${getPriceText(getPrice(Number(item.price), Number(item.discount)))}`}</p>
+                        <p style={{textDecoration: Number(item.discount) > 0 ? ('line-through') : undefined, fontSize: '14px'}}>{`${getPriceText(Number(item.price))}`}</p>
+                        <p style={{marginLeft: '5px'}}>{Number(item.discount) > 0 ? getPriceText(getPrice(Number(item.price), Number(item.discount))) : null}</p>
                     </div>
 
                     <div onClick={() => console.log(item)} style={{display: 'flex'}}>

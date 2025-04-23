@@ -3,6 +3,7 @@ import VerifiedIcon from '@mui/icons-material/Verified';
 import { useState } from "react";
 import { User } from "../../App";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 interface LoginProps {
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
@@ -184,8 +185,27 @@ function Login({setUser}: LoginProps) {
     }
 
     return(
-        <div style={{backgroundColor: 'black', display: 'flex', justifyContent: 'center', alignItems: 'center', height: 'calc(100vh - 146px)'}}>
-            <div style={{width: '400px', display: 'flex', alignItems: 'center', flexDirection: 'column', border: loginHighligh ? ('2px solid red') : undefined}}>
+        <div style={{display: 'flex', justifyContent: 'center' , flexDirection: 'column', width: '100vw', height: 'calc(100vh - 146px)', position: 'relative', overflow: 'hidden'  }}>
+                  
+            <div style={{position: 'fixed', width: '100%', height: '100vh', zIndex: '-5', backgroundColor: `black`}}></div>
+            <motion.div 
+            initial={{ y: 1000, opacity: 0 }}  // Startowa pozycja - poza ekranem
+            animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+            transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15 }} // Płynne pojawianie 
+            style={{position: 'absolute',top: 200, left: '2000px', zIndex: -3, width:'1000px', height: '1000px', backgroundImage: `radial-gradient(circle, ${colors.dot1} 70%, rgba(0,0,0,0) 70%)`, filter: 'blur(300px)'}}></motion.div>
+            <motion.div 
+            initial={{ y: 1000, opacity: 0 }}  // Startowa pozycja - poza ekranem
+            animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+            transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15 }} // Płynne pojawianie 
+            style={{position: 'absolute',top: 300, left: '-500px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot2} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(400px)'}}></motion.div>
+            <motion.div 
+            initial={{ y: 1000, opacity: 0 }}  // Startowa pozycja - poza ekranem
+            animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+            transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15 }} // Płynne pojawianie 
+            style={{position: 'absolute',top: -1500, left: '-400px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot3} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(2000px)'}}></motion.div>
+
+            
+            <div style={{width: '400px', display: 'flex', alignItems: 'center', flexDirection: 'column', border: loginHighligh ? ('2px solid red') : undefined, marginLeft: 'auto', marginRight: 'auto'}}>
                 <div style={{display: 'flex', flexDirection: 'column', paddingTop: '30px', paddingBottom: '30px', alignItems: 'center', border: loginHighligh ? ('2px solid blue'): undefined, backgroundColor: 'rgb(45,45,45, 0.5)', borderRadius: '25px'}}>
                 <p style={{marginBottom: '10px', fontSize: '25px', color: 'white', fontFamily: 'Satoshi-Bold'}}>Zarejestruj się / zaloguj</p>
                 
@@ -197,22 +217,22 @@ function Login({setUser}: LoginProps) {
                 {mode === 'insertEmail' ? (
                     <input placeholder="Adres email" value={email} onChange={changeEmailValue} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px', borderRadius: '15px'}}></input>
                 ) : mode === 'login' ? (
-                    <input placeholder="Hasło" value={password} onChange={changePassword} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px'}}></input>
+                    <input placeholder="Hasło" value={password} onChange={changePassword} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px', borderRadius: '15px'}}></input>
                 ) : mode === 'login2' ? (
-                    <input placeholder="Email code" value={code} onChange={changeCode} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px'}}></input>
+                    <input placeholder="Email code" value={code} onChange={changeCode} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px', borderRadius: '15px'}}></input>
                 
                 ) : (
                     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%'}}>
-                        <input placeholder="Username" value={username} onChange={changeUsername} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px'}}></input>
-                        <input placeholder="Hasło" value={password} onChange={changePassword} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px'}}></input>
-                        <input placeholder="Powtórz hasło" value={repeatPassword} onChange={changeRepeatPassword} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px'}}></input>
+                        <input placeholder="Username" value={username} onChange={changeUsername} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px', borderRadius: '15px'}}></input>
+                        <input placeholder="Hasło" value={password} onChange={changePassword} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px', borderRadius: '15px'}}></input>
+                        <input placeholder="Powtórz hasło" value={repeatPassword} onChange={changeRepeatPassword} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px', borderRadius: '15px'}}></input>
                     </div>
                 )}
                 
                 {
-                    mode === 'register' ? (
+                    mode === 'register' ? ( 
                         <div onClick={() => checkThreeFields() ? (continueClick()) : null} style={{display: 'flex', justifyContent: 'center', marginBottom: '10px', alignItems: 'center', width: '85%', height: '50px', backgroundColor: checkThreeFields() ? colors.primary : colors.secondary , cursor: checkThreeFields() ? 'pointer' : 'not-allowed', borderRadius: '20px'}}>
-                            <p>chuuj</p>
+                            <p>Register</p>
                         </div>
                     ) : (
                         <div onClick={() => continueClick()} style={{display: 'flex', justifyContent: 'center', marginBottom: '10px', alignItems: 'center', width: '85%', height: '50px', backgroundColor: emailValid === false? colors.secondary : colors.primary , cursor: emailValid === false ? 'not-allowed' : 'pointer', borderRadius: '20px'}}>

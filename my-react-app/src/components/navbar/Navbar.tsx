@@ -1,10 +1,10 @@
 import { colors } from "../../colors";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {  FireExtinguisher, Person2, ShoppingBasket } from "@mui/icons-material"; 
 import { useNavigate } from "react-router-dom";
 import { User } from "../../App";
 import Item from "../item/Item";
-import { color, motion } from "framer-motion";
+import { color, motion, AnimatePresence } from "framer-motion";
 
 interface NavbarProps {
     user: User | null;
@@ -18,13 +18,30 @@ interface NavbarProps {
     getPrice: (p: number, d: number) => number;
     getPriceText: (itemPrice: number) => string
     priceTable: number[];
+    languageData: { [key: string]: string };
 }
 
-function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasketOpen, removeFromBasket, fetchExchangeRate, getPrice, getPriceText, priceTable }: NavbarProps) {
+function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasketOpen, removeFromBasket, fetchExchangeRate, getPrice, getPriceText, priceTable, languageData }: NavbarProps) {
     const navigate = useNavigate();
 
     const [searchBar, setSearchBar] = useState('');
     const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false); // Stan menu języka
+
+    const [scrollPercentage, setScrollPercentage] = useState(0);
+
+    const handleScroll = () => {
+        const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPosition = window.scrollY;
+        const percentage = (scrollPosition / totalHeight) * 100;
+        setScrollPercentage(percentage);
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+          window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     const handleSearchChange = (event: any) => {
         setSearchBar(event.target.value);
@@ -76,24 +93,29 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
         <motion.div
         initial={{ y: -100, opacity: 0 }}  // Startowa pozycja - poza ekranem
         animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
-        transition={{ type: "spring", stiffness: 90, damping: 15 }} // Płynne pojawianie 
-        style={{ display: 'flex', justifyContent: 'center', borderBottom: `4px solid rgb(255, 255, 255, 0)`,position: 'fixed', zIndex: 30, width: '100%', top: 0, backgroundColor: 'rgb(0, 0, 0, 0.3)' }}>
+        transition={{ type: "spring", stiffness: 90, damping: 15, duration: 2 }} // Płynne pojawianie 
+        style={{ display: 'flex', justifyContent: 'center' , borderBottom: `4px solid rgb(255, 255, 255, 0)`,position: 'fixed', zIndex: 30, width: '100%', top: 0, backgroundColor: `rgb(13, 17, 23, ${( (scrollPercentage / 100) * 3) > 0.9 ? (0.9) : ((scrollPercentage / 100) * 3)})` }}>
             <div style={{ display: 'flex', alignItems: 'center', height: '60px', width: '90%' }}>
                 
-                <p onClick={() => navigate('/')} style={{ marginRight: 'auto', fontSize: '30px', marginLeft: '30px', width: '180px', cursor: 'pointer', color: '#66ccff', fontFamily: 'Satoshi-Bold' }}>Best market</p>
+                <p onClick={() => navigate('/')} style={{ marginRight: 'auto', fontSize: '30px', marginLeft: '30px', width: '180px', cursor: 'pointer', color: '#66ccff', fontFamily: 'Satoshi-Bold' }}>{languageData.name}</p>
                 
                 
                 
                 <div>
                     
-
+                    <AnimatePresence>
                     {isLanguageMenuOpen && (
-                        <div style={{
+                        <motion.div 
+                        initial={{ y: 0, opacity: 0 }}  // Startowa pozycja - poza ekranem
+                        animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+                        exit={{ y: 0, opacity: 0 }}
+                        transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15 }} // Płynne pojawianie 
+                        
+                        style={{
                             position: 'absolute',
                             top: '64px',
                             right: '50px',
                             backgroundColor: 'rgb(0,0,0, 0.1)',
-                            boxShadow: `0px 4px 6px ${colors.primary}`,
                             borderRadius: '5px',
                             border: `2px solid ${colors.primary}`,
                             minWidth: '120px',
@@ -110,11 +132,19 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
                                     <p style={{ marginLeft: '5px', color: 'white' }}>{label}</p>
                                 </div>
                             ))}
-                        </div>
+                        </motion.div>
                     )}
 
+                    </AnimatePresence>
+                    <AnimatePresence>
                     {isBasketOpen && (
-                        <div style={{
+                        <motion.div 
+                        initial={{ y: 0, opacity: 0 }}  // Startowa pozycja - poza ekranem
+                        animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
+                        exit={{ y: 0, opacity: 0 }}
+                        transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15 }} // Płynne pojawianie 
+                        
+                        style={{
                             position: 'fixed',
                             top: '64px',
                             right: '0',
@@ -123,20 +153,20 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
                             alignItems: 'center',
                             width: '400px',
                             height: 'calc(100vh - 64px)',
-                            backgroundColor: 'rgb(0, 0, 0, 0.5)',
-                            borderLeft: `2px solid #66ccff`,
-                            boxShadow: '0px 4px 6px rgba(0, 255, 255, 0.7)',
-                            borderRadius: '10px 0px 0px 10px',
+                            backgroundColor: 'rgb(0, 0, 0, 0.85)',
+                            borderLeft: `2px solidrgb(94, 94, 94)`,
+                            boxShadow: '10px 40px 60px rgba(0, 0, 0, 0.8), 15px 45px 90px rgba(0, 0, 0, 0.5)',
+
                             minWidth: '120px',
                             zIndex: 10
 
                         }}>
                             
-                            <p style={{fontSize: '20px', color: 'white', fontFamily: 'Satoshi'}}>Koszyk</p>
+                            <p style={{fontSize: '23px', color: 'white', fontFamily: 'Satoshi'}}>Koszyk</p>
                             
-                            <div style={{borderTop: '2px solid gray', borderBottom: '2px solid gray', width: '100%', height:'89%', overflowY: 'auto'}}>
+                            <div style={{borderTop: `2px solid ${colors.primary}`, borderBottom: `2px solid ${colors.primary}`, width: '100%', height:'89%', overflowY: 'auto'}}>
                                 {basket.map((item) => (
-                                    <div key={item.id} style={{ display: 'flex', marginBottom: '10px', borderBottom: '1px solid #ccc', padding: '10px' }}>
+                                    <div key={item.id} style={{ display: 'flex', marginBottom: '10px', padding: '10px' }}>
                                     <img src={item.src} alt={item.title} style={{ width: '50px', height: '50px', objectFit: 'cover', marginRight: '10px' }} />
                                     <div>
                                         <div style={{display: 'flex', width: '320px'}}>
@@ -149,11 +179,12 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
                                     </div>
                                 ))}
                             </div>
-                            <div onClick={() => goToBasket()} style={{marginTop: '10px', borderRadius: '10px', backgroundColor: colors.primary, width: '90%', display:'flex', height: '50px', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
+                            <div onClick={() => goToBasket()} style={{marginTop: '10px', marginBottom: '12px', borderRadius: '10px', backgroundColor: colors.primary, width: '90%', display:'flex', height: '50px', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
                                 <p style={{color: 'white', fontFamily: 'Satoshi-bold'}}>{`Przejdź dalej (${getPriceText(getAllBasketValue())})`}</p>
                             </div>
-                        </div>
+                        </motion.div>
                     )}
+                    </AnimatePresence>
                 </div>
                 
                 
@@ -161,7 +192,7 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
                     <Person2 style={{ fontSize: '35px', color: colors.text }} />
                     <div>
                         <p style={{ marginLeft: '10px', fontSize: '20px', color: colors.text }}>
-                            {user === null ? 'Niezalogowano' : displayName(user.username, 13)}
+                            {user === null ? languageData.notLogged : displayName(user.username, 13)}
                         </p>
                         {/*
                         <p style={{ marginLeft: '10px', fontSize: '12px', color: colors.text }}>

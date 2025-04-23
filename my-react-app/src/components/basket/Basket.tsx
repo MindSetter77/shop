@@ -58,9 +58,9 @@ function Basket({basket, removeFromBasket}: BasketProps){
                                         <div style={{display: 'flex', width: '100%'}}>
                                             <img src={basket[index].src} style={{maxWidth: '100px', maxHeight: '100px'}}/>
                                             <div style={{marginLeft: '10px', width: '100%'}}>
-                                            <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+                                            <div style={{ display: 'flex', width: '98%', justifyContent: 'space-between' }}>
                                                 <p style={{color: 'white'}}>{displayName(basket[index].title, 35)}</p>
-                                                <DeleteForeverIcon style={{color: 'white', cursor: 'pointer'}} onClick={() => removeFromBasket(basket[index].id)}/>
+                                                <DeleteForeverIcon style={{color: 'white', cursor: 'pointer', marginTop: '10px'}} onClick={() => removeFromBasket(basket[index].id)}/>
                                             </div>
                                                 
                                                 <p style={{color: 'white'}}>{basket[0].price} PLN</p>
