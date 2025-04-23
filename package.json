@@ -1,0 +1,9 @@
+{
+    "name": "fullstack-app",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+      "build": "npm run build --prefix my-react-app",
+      "start": "npm run start --prefix server"
+    }
+  }
