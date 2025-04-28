@@ -1,10 +1,10 @@
 import { colors } from "../../colors";
 import { useState, useEffect } from "react";
-import {  FireExtinguisher, Person2, ShoppingBasket } from "@mui/icons-material"; 
+import { Person2, ShoppingBasket } from "@mui/icons-material"; 
 import { useNavigate } from "react-router-dom";
 import { User } from "../../App";
-import Item from "../item/Item";
-import { color, motion, AnimatePresence } from "framer-motion";
+
+import { motion, AnimatePresence } from "framer-motion";
 
 interface NavbarProps {
     user: User | null;
@@ -24,7 +24,7 @@ interface NavbarProps {
 function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasketOpen, removeFromBasket, fetchExchangeRate, getPrice, getPriceText, priceTable, languageData }: NavbarProps) {
     const navigate = useNavigate();
 
-    const [searchBar, setSearchBar] = useState('');
+    
     const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false); // Stan menu języka
 
     const [scrollPercentage, setScrollPercentage] = useState(0);
@@ -43,9 +43,7 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
         };
     }, []);
 
-    const handleSearchChange = (event: any) => {
-        setSearchBar(event.target.value);
-    };
+    
 
     const displayName = (name: string, amount: number) => {
         return name.length > amount ? name.slice(0, amount) : name;

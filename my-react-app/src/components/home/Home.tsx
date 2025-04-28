@@ -49,7 +49,7 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
     let url_list = []
     
     for(let i = 0; i<data.length; i++){
-      url_list.push(`http://localhost:3000/images/item_${data[i].id}/image_1.jpg`)
+      url_list.push(`${import.meta.env.VITE_BACK_END_URL}/images/item_${data[i].id}/image_1.jpg`)
     }
 
     console.log(data)
@@ -65,7 +65,7 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
 
   const getItems = async (ids: string) => {
     try {
-        const response = await fetch('http://localhost:3000/getItems', {
+        const response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/getItems`, {
             method: 'POST', 
             headers: {
                 'Content-Type': 'application/json',
@@ -100,7 +100,7 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
 
   const getDiscountItems = async(filterr: string) => {
     try {
-      const response = await fetch('http://localhost:3000/getSortedItems', {
+      const response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/getSortedItems`, {
           method: 'POST', 
           headers: {
               'Content-Type': 'application/json',
@@ -130,7 +130,7 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
 
       getDiscountItems(filter)
         
-    }, [2]); // Pusty array zapewnia, że ten efekt wykona się tylko raz po załadowaniu komponentu
+    }, []); // Pusty array zapewnia, że ten efekt wykona się tylko raz po załadowaniu komponentu
 
   
 
@@ -211,7 +211,7 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
                 animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
                 transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15 }} // Płynne pojawianie 
                 style={{display: 'flex', flexDirection: 'column', fontFamily: 'Satoshi-Black'}}>
-                    <p style={{color: 'white', fontSize: '60px'}}>{languageData.mainSlogan1}</p>
+                    <p style={{color: 'white', fontSize: '60px'}}>The Next</p>
                     <motion.p initial={{ opacity: 0 }} animate={{opacity: [0.8, 1, 0.8, 1],backgroundPosition: ["80% 50%", "90% 50%", "70% 50%", "80% 50%"]}} transition={{ duration: 3, repeat: Infinity, repeatType: "mirror" }} style={{fontFamily: 'Satoshi-Bold', fontSize: '60px',fontWeight: 'bold',background: 'linear-gradient(90deg, #66ccff 40%, #ffffff 100%)',backgroundSize: '300% 100%',backgroundPosition: "80% 50%",WebkitBackgroundClip: 'text',WebkitTextFillColor: 'transparent',display: 'inline-block',whiteSpace: 'nowrap',}}
                     >{languageData.mainSlogan2}</motion.p>
                     <p style={{color: 'white', fontSize: '60px', width: '100%'}}>{languageData.mainSlogan3}</p>

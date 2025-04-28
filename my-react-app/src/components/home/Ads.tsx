@@ -1,13 +1,4 @@
-import { colors } from "../../colors"
-import { useEffect, useState } from "react"
-import { basket_item, User } from "../../App";
 
-import StarIcon from '@mui/icons-material/Star';
-import StarHalfIcon from '@mui/icons-material/StarHalf';
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import {  Person2, ShoppingBasket } from "@mui/icons-material"; 
-import { useNavigate } from "react-router-dom";
-import styled from "@emotion/styled/macro";
 
 interface AdsProps{
   photo1s: any[]

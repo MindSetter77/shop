@@ -98,7 +98,7 @@ function App() {
   const fetchTodos = async () => {
     try {
       // Pobranie todos
-      const todosResponse = await fetch('http://localhost:3000/todos', {
+      const todosResponse = await fetch(`${import.meta.env.BACK_END_URL}/todos`, {
         method: 'GET',
         credentials: 'include', // Ważne, aby wysłać ciasteczka
       });
@@ -142,7 +142,7 @@ function App() {
       
       try {
         
-        const response = await fetch('http://localhost:3000/getLanguage', {
+        const response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/getLanguage`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

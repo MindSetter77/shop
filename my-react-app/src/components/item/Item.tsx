@@ -44,7 +44,7 @@ function Item({language, getPriceText, getPrice}: ItemProps) {
         console.log(language)
         const fetchPhotos = async () => {
             try {
-                const response = await fetch('http://localhost:3000/getPhotos', {
+                const response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/getPhotos`, {
                     method: 'POST', 
                     headers: {
                         'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ function Item({language, getPriceText, getPrice}: ItemProps) {
 
         const fetchData = async () =>{
             try {
-                const response = await fetch('http://localhost:3000/getItemData', {
+                const response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/getItemData`, {
                     method: 'POST', 
                     headers: {
                         'Content-Type': 'application/json',

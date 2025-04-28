@@ -1,6 +1,6 @@
-import React from "react";
+
 import { colors } from "../../colors";
-import { color } from "framer-motion";
+
 
 function Footer() {
 

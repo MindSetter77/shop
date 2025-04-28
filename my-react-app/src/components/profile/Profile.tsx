@@ -24,7 +24,7 @@ function Profile({setUser} : ProfileProps) {
       const fetchGetUser = async() => {
 
         try{
-          const response = await fetch('http://localhost:3000/getUser', {
+          const response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/getUser`, {
             method: "POST",
             headers: {
               'Content-Type': 'application/json'
@@ -53,7 +53,7 @@ function Profile({setUser} : ProfileProps) {
         const deleteTodos = async () => {
             try {
               // Pobranie todos
-              const todosResponse = await fetch('http://localhost:3000/deleteTodos', {
+              const todosResponse = await fetch(`${import.meta.env.VITE_BACK_END_URL}/deleteTodos`, {
                 method: 'DELETE',
                 credentials: 'include', // Ważne, aby wysłać ciasteczka
               });
@@ -81,8 +81,8 @@ function Profile({setUser} : ProfileProps) {
   <div style={{position: 'absolute', top: -1500, left: '-400px', zIndex: -4, width: '2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot3} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(2000px)'}}></div>
 
   {pageUser && (
-    <div style={{border: '2px solid #e0e0e0', width: '80%', maxWidth: '800px', margin: '2rem auto', padding: '2rem', borderRadius: '15px', boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)', backgroundColor: 'rgb(255, 255, 255, 0.4)', fontFamily: 'Arial, sans-serif'}}>
-    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem'}}>
+    <div style={{border: '2px solid #e0e0e0', width: '80%', margin: '2rem auto', padding: '2rem', borderRadius: '15px', boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)', backgroundColor: 'rgb(255, 255, 255, 0.4)', fontFamily: 'Arial, sans-serif', display: 'flex'}}>
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', border: '2px solid red', width: '20%'}}>
       <div style={{width: '150px', height: '150px', borderRadius: '50%', background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', border: '4px solid #4CAF50', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)'}}>
         <span style={{fontSize: '3rem', color: '#4CAF50', fontWeight: 'bold'}}>👤</span>
       </div>
@@ -96,20 +96,23 @@ function Profile({setUser} : ProfileProps) {
       <div style={{display: 'flex', gap: '2rem', margin: '1rem 0'}}>
         <div style={{textAlign: 'center'}}>
           <p style={{margin: '0', fontWeight: 'bold', fontSize: '1.2rem', color: '#333'}}>124</p>
-          <p style={{margin: '0', color: '#666', fontSize: '0.9rem'}}>Posty</p>
+          <p style={{margin: '0', color: '#333', fontSize: '0.9rem'}}>Posty</p>
         </div>
         <div style={{textAlign: 'center'}}>
           <p style={{margin: '0', fontWeight: 'bold', fontSize: '1.2rem', color: '#333'}}>1.2k</p>
-          <p style={{margin: '0', color: '#666', fontSize: '0.9rem'}}>Obserwujący</p>
+          <p style={{margin: '0', color: '#333', fontSize: '0.9rem'}}>Obserwujący</p>
         </div>
         <div style={{textAlign: 'center'}}>
           <p style={{margin: '0', fontWeight: 'bold', fontSize: '1.2rem', color: '#333'}}>543</p>
-          <p style={{margin: '0', color: '#666', fontSize: '0.9rem'}}>Obserwowani</p>
+          <p style={{margin: '0', color: '#333', fontSize: '0.9rem'}}>Obserwowani</p>
         </div>
       </div>
 
       <button onClick={() => logoutUser()} style={{padding: '0.6rem 1.5rem', backgroundColor: '#ff4444', color: 'white', border: 'none', borderRadius: '25px', cursor: 'pointer', fontWeight: 'bold', fontSize: '1rem', transition: 'all 0.3s ease'}}>Wyloguj się</button>
     </div>
+    <div style={{border: '2px solid blue', width: '50%'}}>witam</div>
+
+    
   </div>
   )}
 

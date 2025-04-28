@@ -23,7 +23,7 @@ function ItemCard({photo1s, item, getPriceText, getPrice, addToBasket, basket, r
 
     const manageBasketButton = (id: number) => {
         if(!basket.some(basketItem => basketItem.id === id)){
-            addToBasket({id: item.id, src: `http://localhost:3000/images/item_${item.id}/image_1.jpg`, title: item.title, price: Number(item.price),discount: Number(item.discount)})
+            addToBasket({id: item.id, src: `${import.meta.env.BACK_END_URL}/images/item_${item.id}/image_1.jpg`, title: item.title, price: Number(item.price),discount: Number(item.discount)})
         } else {
             removeFromBasket(id)
         }

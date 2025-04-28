@@ -8,10 +8,28 @@ const path = require('path');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
+console.log(`FONTENT URL: ${process.env.FRONTEND_URL}`)
 
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: process.env.FRONTEND_URL,
     methods: 'GET,POST,DELETE',
+    credentials: true,
+};
+
+
+console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
+/*
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
+    res.header("Access-Control-Allow-Methods", "GET,POST,DELETE");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Credentials", "true");
+    next();
+  });
+
+const corsOptions = {
+    origin: process.env.FRONTEND_URL,
+    methods: ['GET', 'POST', 'DELETE'],
     credentials: true,
 };
 
@@ -28,10 +46,10 @@ app.use(express.json());
 const PORT = 3000;
 
 const db = mysql.createConnection({
-    host: 'maglev.proxy.rlwy.net',
-    port: 27107,
+    host: 'localhost',
+    port: 3306,
     user: 'root',
-    password: 'bqjigiBJNxQdRDYTBlxewtfwCdTEevOB',
+    password: 'Sonia484pl!',
     database: 'sklep',
   });
 

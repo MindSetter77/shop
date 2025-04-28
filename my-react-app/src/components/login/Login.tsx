@@ -49,7 +49,7 @@ function Login({setUser}: LoginProps) {
             try {
                 let emailAdress: string = email;
         
-                const response = await fetch('http://localhost:3000/checkIfUserExists', {
+                const response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/checkIfUserExists`, {
                     method: 'POST', 
                     headers: {
                         'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ function Login({setUser}: LoginProps) {
                 let emailAdress: string = email;
                 let pass: string = password;
         
-                const response = await fetch('http://localhost:3000/loginBeforeCode', {
+                const response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/loginBeforeCode`, {
                     method: 'POST', 
                     headers: {
                         'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ function Login({setUser}: LoginProps) {
             
             try {
         
-                const response = await fetch('http://localhost:3000/loginAfterCode', {
+                const response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/loginAfterCode`, {
                     method: 'POST', 
                     headers: {
                         'Content-Type': 'application/json',
@@ -136,7 +136,7 @@ function Login({setUser}: LoginProps) {
                     let emailAdress: string = email;
                     let pass: string = password;
             
-                    const response = await fetch('http://localhost:3000/register', {
+                    const response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/register`, {
                         method: 'POST', 
                         headers: {
                             'Content-Type': 'application/json',
