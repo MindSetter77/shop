@@ -25,6 +25,7 @@ function Login({setUser}: LoginProps) {
     const [username, setUsername] = useState('')
 
     const [code, setCode] = useState('')
+    const [error, setErrorMessage] = useState<string>('')
 
 
     const changeEmailValue = (event: any) => {
@@ -93,9 +94,9 @@ function Login({setUser}: LoginProps) {
                     if(data.message === 'success'){
                         setMode('login2')
                     }
-                    
+                    setErrorMessage('')
                 } else {
-                    console.error('Error adding user to database:', response);
+                    setErrorMessage('Wrong password')
                 }
             } catch (error) {
                 console.error('Something went wrong!', error);
@@ -116,13 +117,11 @@ function Login({setUser}: LoginProps) {
                 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log('=======')
-                    console.log(data.result)
+                    setErrorMessage('')
                     setUser(data.result)
                     navigate('/')
-                    
                 } else {
-                    console.error('Error adding user to database:', response);
+                    setErrorMessage('Wrong email code!')
                 }
             } catch (error) {
                 console.error('Something went wrong!', error);
@@ -197,12 +196,12 @@ function Login({setUser}: LoginProps) {
             initial={{ y: 1000, opacity: 0 }}  // Startowa pozycja - poza ekranem
             animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
             transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15 }} // Płynne pojawianie 
-            style={{position: 'absolute',top: 300, left: '-500px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot2} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(400px)'}}></motion.div>
+            style={{position: 'absolute',top: 300, left: '-260px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot2} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(400px)'}}></motion.div>
             <motion.div 
             initial={{ y: 1000, opacity: 0 }}  // Startowa pozycja - poza ekranem
             animate={{ y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
             transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15 }} // Płynne pojawianie 
-            style={{position: 'absolute',top: -1500, left: '-400px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot3} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(2000px)'}}></motion.div>
+            style={{position: 'absolute',top: -1500, left: '-270px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot3} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(2000px)'}}></motion.div>
 
             
             <div style={{width: '400px', display: 'flex', alignItems: 'center', flexDirection: 'column', border: loginHighligh ? ('2px solid red') : undefined, marginLeft: 'auto', marginRight: 'auto'}}>
@@ -213,6 +212,15 @@ function Login({setUser}: LoginProps) {
                     <VerifiedIcon style={{fontSize: "15px", color: 'green', marginRight: '5px'}}/>
                     <p style={{fontSize: '13px', color: 'white'}}>Twoje dane są chronione</p>
                 </div>
+
+                {error !== '' ? (
+                    <div style={{ backgroundColor: '#f8d7da', border: '1px solid #f5c2c7', color: '#842029', padding: '12px 16px', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
+                        <span style={{ fontWeight: 'bold', fontSize: '18px' }}>⚠️</span>
+                        <p style={{ margin: 0 }}>{error}</p>
+                    </div>
+                ) : null}
+
+                
 
                 {mode === 'insertEmail' ? (
                     <input placeholder="Adres email" value={email} onChange={changeEmailValue} style={{ width: '85%', height: '50px',  paddingLeft: '10px', marginBottom: '20px', borderRadius: '15px'}}></input>

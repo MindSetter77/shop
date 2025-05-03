@@ -313,12 +313,9 @@ app.post('/getSortedItems', async(req, res) => {
         case 'Gowno':
             sql = `SELECT * FROM items ORDER BY id;`;
             break;
+        default:
+           sql = `SELECT * FROM items ORDER BY discount ;`; //DESC LIMIT 10
     }
-
-    
-    
-
-    
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -360,6 +357,119 @@ app.delete('/deleteTodos', (req, res) => {
     res.status(200).json({ message: 'Wylogowano pomyślnie' });
 });
 
+app.post('/getComments', async(req, res) => {
+    const item_id = req.body.item_id;
+
+    const sql = `select * from comment where item_id = ${item_id};`;
+
+    
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.error("Błąd zapytania SQL:", err);
+            return res.status(500).json({ error: err.message });
+        }
+        res.status(200).json(result);
+    });
+});
+
+app.post('/getOrders', async(req, res) => {
+    const user_id = req.body.user_id;
+
+    const sql = `select * from orders where user_id = ${user_id};`;
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.error("Błąd zapytania SQL:", err);
+            return res.status(500).json({ error: err.message });
+        }
+        console.log("Sent back <3")
+        res.status(200).json(result);
+    });
+});
+
+app.post('/getCardInfo', async(req, res) => {
+    const user_id = req.body.user_id;
+
+    const sql = `select * from credit_cards where user_id = ${user_id};`;
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.error("Błąd zapytania SQL:", err);
+            return res.status(500).json({ error: err.message });
+        }
+        console.log("sentttt")
+        res.status(200).json(result);
+    });
+});
+
+app.post('/setCardInfo', async (req, res) => {
+    const { user_id, cardName, cardNumber, cardDate, ccv } = req.body;
+
+    const sql = `
+        INSERT INTO credit_cards (user_id, cardName, cardNumber, cardDate, ccv)
+        VALUES (?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+            cardName = VALUES(cardName),
+            cardNumber = VALUES(cardNumber),
+            cardDate = VALUES(cardDate),
+            ccv = VALUES(ccv);
+    `;
+
+    db.query(sql, [user_id, cardName, cardNumber, cardDate, ccv], (err, result) => {
+        if (err) {
+            console.error("Błąd zapytania SQL:", err);
+            return res.status(500).json({ error: err.message });
+        }
+        console.log("Rekord zapisany lub zaktualizowany");
+        res.status(200).json(result);
+    });
+});
+
+app.post('/setAdressData', async (req, res) => {
+    const { user_id, imie, nazwisko, phone, postCode, city, province, street, additional } = req.body;
+
+    const sql = `
+        INSERT INTO send_data (user_id, first_name, second_name, phone, postCode, city, province, street, additional)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+            first_name = VALUES(first_name),
+            second_name = VALUES(second_name),
+            phone = VALUES(phone),
+            postCode = VALUES(postCode),
+            city = VALUES(city),
+            province = VALUES(province),
+            street = VALUES(street),
+            additional = VALUES(additional);
+    `;
+
+    db.query(sql, [user_id, imie, nazwisko, phone, postCode, city, province, street, additional], (err, result) => {
+        if (err) {
+            console.error("Błąd zapytania SQL:", err);
+            return res.status(500).json({ error: err.message });
+        }
+        console.log("Rekord zapisany lub zaktualizowany");
+        res.status(200).json(result);
+    });
+});
+
+app.post('/getAdressData', async (req, res) => {
+    const { user_id } = req.body;
+
+    const sql = `
+        select * from send_data where user_id = ?;
+    `;
+
+    db.query(sql, [user_id], (err, result) => {
+        if (err) {
+            console.error("Błąd zapytania SQL:", err);
+            return res.status(500).json({ error: err.message });
+        }
+        console.log("Rekord zapisany lub zaktualizowany");
+        res.status(200).json(result);
+    });
+});
+
 app.post('/getSortedItem', async(req, res) => {
     const sql = `SELECT * FROM items`;
     const sort_type = req.body.sort_type;
@@ -391,9 +501,6 @@ app.post('/getSortedItem', async(req, res) => {
 
 app.post('/getPhotoUrls', async(req, res) => {
     const item_ids = req.body.item_ids;
-
-
-
 
     const sql = `SELECT * FROM photos WHERE src = 'http://localhost:3000/images/item_18/image_1.jpg'`;
 

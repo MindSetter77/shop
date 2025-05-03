@@ -209,7 +209,7 @@ function Navbar({ user, language, setLanguage, basket, setIsBasketOpen, isBasket
 
                 <div onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)} style={{ display: 'flex', alignItems: 'center', height: '50px', marginLeft: '20px', cursor: 'pointer' }}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <img src={languageOptions[language]?.flag} style={{ height: '20px' }} />
+                    <img src={`/${languageOptions[language]?.flag}`} onClick={() => console.log(languageOptions[language].flag)} style={{ height: '20px' }} />
                         <div style={{ marginLeft: '10px' }}>
                             <p style={{ fontSize: '20px', color: colors.text, }}>{languageOptions[language]?.label}</p>
                             {/*

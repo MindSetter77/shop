@@ -168,17 +168,17 @@ function Home({setUser, addToBasket, basket, language, getPriceText, getPrice, r
           initial={{ x: 0, opacity: 0 }}  // Startowa pozycja - poza ekranem
           animate={{ x: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
           transition={{ type: "tween", duration: 1, stiffness: 90, damping: 15 }} // Płynne pojawianie 
-          style={{position: 'absolute',top: 200, left: '2000px', zIndex: -3, width:'1000px', height: '1000px', backgroundImage: `radial-gradient(circle, ${colors.dot1} 70%, rgba(0,0,0,0) 70%)`, filter: 'blur(300px)'}}></motion.div>
+          style={{position: 'fixed',top: 200, left: '1000px', zIndex: -3, width:'1000px', height: '1000px', backgroundImage: `radial-gradient(circle, ${colors.dot1} 70%, rgba(0,0,0,0) 70%)`, filter: 'blur(300px)'}}></motion.div>
           <motion.div 
           initial={{ x: -500, opacity: 0 }}  // Startowa pozycja - poza ekranem
           animate={{ x: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
           transition={{ type: "tween", duration: 3, stiffness: 90, damping: 15 }} // Płynne pojawianie 
-          style={{position: 'absolute',top: 300, left: '-500px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot2} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(400px)'}}></motion.div>
+          style={{position: 'fixed',top: 300, left: '-500px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot2} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(400px)'}}></motion.div>
           <motion.div 
           initial={{ x: -500, y: -500, opacity: 0 }}  // Startowa pozycja - poza ekranem
           animate={{ x: 0, y: 0, opacity: 1 }}     // Końcowa pozycja - na miejscu
           transition={{ type: "tween", duration: 2, stiffness: 90, damping: 15 }} // Płynne pojawianie 
-          style={{position: 'absolute',top: -1500, left: '-400px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot3} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(2000px)'}}></motion.div>
+          style={{position: 'fixed',top: -1500, left: '-400px', zIndex: -4, width:'2000px', height: '2000px', backgroundImage: `radial-gradient(circle, ${colors.dot3} 10%, rgba(0,0,0,0) 70%)`, filter: 'blur(2000px)'}}></motion.div>
 
 
           <div style={{width: '100', border: highlight ? ('2px solid red') : undefined, marginTop: '64px'}}>

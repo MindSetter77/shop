@@ -5,9 +5,9 @@ export const colors = {
     background: '#f3f3f3',
     text: '#ffffff',
 
-    dot1: 'rgb(0, 57, 104)',
-    dot2: 'rgb(0, 58, 68)',
-    dot3: 'rgb(102, 0, 88)',
+    dot1: 'rgb(18, 29, 63)',
+    dot2: 'rgb(21, 86, 97)',
+    dot3: 'rgb(201, 42, 180)',
 
     
 
